@@ -1,5 +1,6 @@
 import torch
 import torch.nn.functional as F
+from tqdm import tqdm
 
 
 def run_exp(dataset, model, sparsing_alg=None):
@@ -14,7 +15,7 @@ def run_exp(dataset, model, sparsing_alg=None):
         if model.__class__.__name__ in ["GCN_CUSTOM", "SGC_CUSTOM"] \
         else model(x.x, x.edge_index)
 
-    for epoch in range(200):
+    for epoch in tqdm(range(200), desc='Model Training'):
         optimizer.zero_grad()
         out = out_function(data)
         loss = F.nll_loss(out[data.train_mask], data.y[data.train_mask])
