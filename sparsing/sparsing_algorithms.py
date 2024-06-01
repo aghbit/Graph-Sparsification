@@ -42,6 +42,11 @@ class LDS(IndexMain):
         super().__init__(power=power, calc=calc)
 
 
+class ForestFire(IndexMain):
+    def __init__(self, power: int = None, calc=FFSCalc()):
+        super().__init__(power=power, calc=calc)
+
+
 NORM_TAB = [-3, -2.75, -2.5, -2.25, -2]
 
 sparsing_list = [
@@ -65,4 +70,5 @@ sparsing_list = [
     (AlgebraicDistance, "AlgebraicDistance", NORM_TAB),
     (Katz, "Katz", NORM_TAB),
     (LDS, "LocalDegreeScore", [0.01, 0.02, 0.04, 0.06, 0.08, 0.1]),
+    (ForestFire, "ForestFire", [0.01, 0.02, 0.04, 0.06, 0.08, 0.1]),
 ]

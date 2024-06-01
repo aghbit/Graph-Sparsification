@@ -85,10 +85,12 @@ class LDSCalc(Calculate):
         return np.array(scores, dtype=np.float32)
 
 
-# TODO
-# class FFSCalc(Calculate):
-#     def __init__(self, method=ForestFireScore, minmax=False, norm=True):
-#         super().__init__(method, minmax=minmax, norm=norm)
+class FFSCalc(Calculate):
+    def __init__(self, method=ForestFireScore, minmax=False, norm=True):
+        super().__init__(method, minmax=minmax, norm=norm)
 
-#     def run(self, graph: Graph) -> np.ndarray:
-#         forest_fire = self._method(graph, 0.5, 10.0)
+    def run(self, graph: Graph) -> np.ndarray:
+        forest_fire = self._method(graph, 0.5, 1.0)
+        forest_fire.run()
+        scores = forest_fire.scores()
+        return np.array(scores, dtype=np.float32)
