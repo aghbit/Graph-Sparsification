@@ -37,6 +37,11 @@ class Katz(IndexMain):
         super(Katz, self).__init__(power=power, calc=calc)
 
 
+class LDS(IndexMain):
+    def __init__(self, power: int = None, calc=LDSCalc()):
+        super().__init__(power=power, calc=calc)
+
+
 NORM_TAB = [-3, -2.75, -2.5, -2.25, -2]
 
 sparsing_list = [
@@ -59,4 +64,5 @@ sparsing_list = [
     (AdjustedRand, "AdjustedRand", NORM_TAB),
     (AlgebraicDistance, "AlgebraicDistance", NORM_TAB),
     (Katz, "Katz", NORM_TAB),
+    (LDS, "LocalDegreeScore", [0.01, 0.02, 0.04, 0.06, 0.08, 0.1]),
 ]

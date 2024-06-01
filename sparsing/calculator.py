@@ -8,6 +8,8 @@ from networkit.linkprediction import (
     KatzIndex
 )
 
+from networkit.sparsification import LocalDegreeScore, ForestFireScore
+
 import numpy as np
 from networkit.graph import Graph
 
@@ -63,3 +65,30 @@ class AlgebraicDistanceCalc(Calculate):
 class KatzCalc(Calculate):
     def __init__(self, method=KatzIndex, minmax=False, norm=True):
         super().__init__(method, minmax=minmax, norm=norm)
+
+
+def calculate_local_degree_score(graph: Graph) -> np.ndarray:
+    local_degree_score = LocalDegreeScore(graph)
+    local_degree_score.run()
+    scores = local_degree_score.scores()
+    return np.array(scores, dtype=np.float32)
+
+
+class LDSCalc(Calculate):
+    def __init__(self, method=LocalDegreeScore, minmax=False, norm=True):
+        super().__init__(method, minmax=minmax, norm=norm)
+    
+    def run(self, graph: Graph) -> np.ndarray:
+        local_degree_score = self._method(graph)
+        local_degree_score.run()
+        scores = local_degree_score.scores()
+        return np.array(scores, dtype=np.float32)
+
+
+# TODO
+# class FFSCalc(Calculate):
+#     def __init__(self, method=ForestFireScore, minmax=False, norm=True):
+#         super().__init__(method, minmax=minmax, norm=norm)
+
+#     def run(self, graph: Graph) -> np.ndarray:
+#         forest_fire = self._method(graph, 0.5, 10.0)
