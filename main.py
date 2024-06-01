@@ -10,7 +10,7 @@ from tqdm import tqdm
 
 def get_model(model_type, dataset):
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    print(f'Using device: {device}')
+    #print(f'Using device: {device}')
     try:
         model = model_type(dataset)
     except TypeError:
@@ -31,10 +31,10 @@ def call_exp(sparsing_alg, string, dataset):
 if __name__ == '__main__':
     run_num = 5
 
-    for dataset in tqdm(datasets[1:], desc='Datasets'):
-        for model_type, model_name in tqdm(models, desc='Models'):
-            for algorithm_type, algorithm_name, powers in tqdm(sparsing_list, desc='Sparsification Algorithms'):
-                for power in tqdm(powers, desc='Powers'):
+    for dataset in datasets[1:]:
+        for model_type, model_name in models:
+            for algorithm_type, algorithm_name, powers in sparsing_list:
+                for power in powers:
                     acc = [run_exp(
                         dataset,
                         model=get_model(model_type, dataset),
