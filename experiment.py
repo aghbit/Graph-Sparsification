@@ -10,13 +10,9 @@ def run_exp(dataset, model, sparsing_alg=None):
     optimizer = torch.optim.Adam(params=model.parameters(), lr=0.01, weight_decay=5e-4)
     model.train()
 
-    out_function = lambda x: model(x) \
-        if model.__class__.__name__ in ["GCN_CUSTOM", "SGC_CUSTOM"] \
-        else model(x.x, x.edge_index)
-
     for epoch in range(50):
         optimizer.zero_grad()
-        out = out_function(data)
+        out = model(data.x, data.edge_index)
         loss = F.nll_loss(out[data.train_mask], data.y[data.train_mask])
         loss.backward()
         optimizer.step()

@@ -13,9 +13,7 @@ class GCN_CUSTOM(torch.nn.Module):
         self.conv2 = GCNConv(dataset.num_node_features, dataset.num_node_features)
         self.lin1 = Linear(dataset.num_node_features, dataset.num_classes)
 
-    def forward(self, data):
-        x, edge_index = data.x, data.edge_index
-
+    def forward(self, x, edge_index):
         x = self.conv1(x, edge_index)
         x = F.relu(x)
         x = F.dropout(x, training=self.training)
@@ -36,9 +34,7 @@ class SGC_CUSTOM(torch.nn.Module):
         self.conv2 = SGConv(dataset.num_node_features, dataset.num_node_features, K=2)
         self.lin1 = Linear(dataset.dataset.num_node_features, dataset.num_classes)
 
-    def forward(self, data):
-        x, edge_index = data.x, data.edge_index
-
+    def forward(self, x, edge_index):
         x = self.conv1(x, edge_index)
         x = F.relu(x)
         x = F.dropout(x, training=self.training)
