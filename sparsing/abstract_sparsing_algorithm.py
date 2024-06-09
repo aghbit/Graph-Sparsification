@@ -32,6 +32,7 @@ class IndexMain(BaseSparsing):
             edge_index = edge_index[:, mask]
             G = to_networkx(data, to_undirected=True)
             G = nx2nk(G)
+            G.indexEdges()
             edge_weights = self._main_calc(G)
             # show_cdf(edge_weights)
             edge_index = edge_index[:, edge_weights >= self.power]
