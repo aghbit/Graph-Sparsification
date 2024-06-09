@@ -33,37 +33,37 @@ class Calculate:
 
 
 class JaccardCalc(Calculate):
-    def __init__(self, method=JaccardIndex, minmax=False, norm=True):
+    def __init__(self, method=JaccardIndex, minmax=False, norm=False):
         super().__init__(method, minmax=minmax, norm=norm)
 
 
 class CommonNeighborsCalc(Calculate):
-    def __init__(self, method=CommonNeighborsIndex, minmax=False, norm=True):
+    def __init__(self, method=CommonNeighborsIndex, minmax=False, norm=False):
         super().__init__(method, minmax=minmax, norm=norm)
 
 
 class PreferentialAttachmentCalc(Calculate):
-    def __init__(self, method=PreferentialAttachmentIndex, minmax=False, norm=True):
+    def __init__(self, method=PreferentialAttachmentIndex, minmax=False, norm=False):
         super().__init__(method, minmax=minmax, norm=norm)
 
 
 class AdamicAdarCalc(Calculate):
-    def __init__(self, method=AdamicAdarIndex, minmax=False, norm=True):
+    def __init__(self, method=AdamicAdarIndex, minmax=False, norm=False):
         super().__init__(method, minmax=minmax, norm=norm)
 
 
 class AdjustedRandCalc(Calculate):
-    def __init__(self, method=AdjustedRandIndex, minmax=False, norm=True):
+    def __init__(self, method=AdjustedRandIndex, minmax=False, norm=False):
         super().__init__(method, minmax=minmax, norm=norm)
 
 
 class AlgebraicDistanceCalc(Calculate):
-    def __init__(self, method=AlgebraicDistanceIndex, minmax=False, norm=True):
+    def __init__(self, method=AlgebraicDistanceIndex, minmax=False, norm=False):
         super().__init__(method, minmax=minmax, norm=norm)
 
 
 class KatzCalc(Calculate):
-    def __init__(self, method=KatzIndex, minmax=False, norm=True):
+    def __init__(self, method=KatzIndex, minmax=False, norm=False):
         super().__init__(method, minmax=minmax, norm=norm)
 
 
@@ -75,7 +75,7 @@ def calculate_local_degree_score(graph: Graph) -> np.ndarray:
 
 
 class LDSCalc(Calculate):
-    def __init__(self, method=LocalDegreeScore, minmax=False, norm=True):
+    def __init__(self, method=LocalDegreeScore, minmax=False, norm=False):
         super().__init__(method, minmax=minmax, norm=norm)
     
     def run(self, graph: Graph) -> np.ndarray:
@@ -86,7 +86,7 @@ class LDSCalc(Calculate):
 
 
 class FFSCalc(Calculate):
-    def __init__(self, method=ForestFireScore, minmax=False, norm=True):
+    def __init__(self, method=ForestFireScore, minmax=False, norm=False):
         super().__init__(method, minmax=minmax, norm=norm)
 
     def run(self, graph: Graph) -> np.ndarray:
