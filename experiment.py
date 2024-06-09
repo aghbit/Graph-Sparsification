@@ -45,15 +45,15 @@ def run_exp_sklearn(dataset, model, sparsing_alg=None):
     X = get_topological_features(G_nk)
     y = data.y.numpy()
 
-    X_train, y_train, X_test, y_test = train_test_split(X, y, random_state=42)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
 
     # get model
-    if isinstance(model, SVC):
+    if model == 'SVM':
         model = SVC(
             kernel='rbf',
             random_state=42
         )
-    elif isinstance(model, RandomForestClassifier):
+    elif model == 'RF':
         model = RandomForestClassifier(
             n_estimators=100,
             criterion='gini',

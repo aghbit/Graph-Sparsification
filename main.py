@@ -31,14 +31,14 @@ def call_exp(sparsing_alg, string, dataset):
 if __name__ == '__main__':
     run_num = 5
 
-    for dataset in datasets[1:]:
+    for dataset in datasets:
         for model_type, model_name in models:
             for algorithm_type, algorithm_name, powers in sparsing_list:
                 for power in powers:
                     if model_name in ['RF', 'SVM']:
                         acc = [run_exp_sklearn(
                             dataset,
-                            model=model_type,
+                            model=model_name,
                             sparsing_alg=algorithm_type if power is None else algorithm_type(power)
                         )]
                     else:

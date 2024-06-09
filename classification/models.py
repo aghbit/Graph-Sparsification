@@ -50,13 +50,13 @@ class SGC_CUSTOM(torch.nn.Module):
 
 
 models = [
-    (GCN_CUSTOM, "GCN_CUSTOM"),
-    (SGC_CUSTOM, "SGC_CUSTOM"),
-    (GCN, "GCN"),
-    (GraphSAGE, "GraphSAGE"),
-    (GIN, "GIN"),
-    (PNA, "PNA"),
-    (GAT, "GAT"),
-    (RandomForestClassifier, 'RF'),
-    (SVC, 'SVM')
+    # (GCN_CUSTOM, "GCN_CUSTOM"),
+    # (SGC_CUSTOM, "SGC_CUSTOM"),
+    # (GCN, "GCN"),
+    # (GraphSAGE, "GraphSAGE"),
+    # (GIN, "GIN"),
+    # (PNA, "PNA"),
+    # (GAT, "GAT"),
+    (SVC, 'SVM'),
+    (RandomForestClassifier, 'RF')
     ]
