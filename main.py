@@ -2,7 +2,7 @@ import torch
 
 from datasets import datasets
 from experiment import run_exp
-from models import models
+from classification.models import models
 from sparsing.sparsing_algorithms import sparsing_list
 
 from tqdm import tqdm
