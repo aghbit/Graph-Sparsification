@@ -4,7 +4,8 @@ from torch_geometric.nn import GCNConv
 from torch_geometric.nn import Linear
 from torch_geometric.nn import SGConv
 from torch_geometric.nn.models import GCN, GraphSAGE, GIN, PNA, GAT
-
+from sklearnex.ensemble import RandomForestClassifier
+from sklearnex.svm import SVC
 
 class GCN_CUSTOM(torch.nn.Module):
     def __init__(self, dataset):
@@ -49,11 +50,13 @@ class SGC_CUSTOM(torch.nn.Module):
 
 
 models = [
-        (GCN_CUSTOM, "GCN_CUSTOM"),
-        (SGC_CUSTOM, "SGC_CUSTOM"),
-        (GCN, "GCN"),
-        (GraphSAGE, "GraphSAGE"),
-        (GIN, "GIN"),
-        (PNA, "PNA"),
-        (GAT, "GAT"),
+    (GCN_CUSTOM, "GCN_CUSTOM"),
+    (SGC_CUSTOM, "SGC_CUSTOM"),
+    (GCN, "GCN"),
+    (GraphSAGE, "GraphSAGE"),
+    (GIN, "GIN"),
+    (PNA, "PNA"),
+    (GAT, "GAT"),
+    (RandomForestClassifier, 'RF'),
+    (SVC, 'SVM')
     ]
