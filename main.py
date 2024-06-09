@@ -51,6 +51,6 @@ if __name__ == '__main__':
                     print(
                         f'{model_name} '
                         f'on {dataset} '
-                        f'with {algorithm_name} '
+                        f'with {algorithm_name} (power {power})'
                         f'sparsing: {torch.tensor(acc).mean():.2%} '
                         f'± {torch.tensor(acc).std():.2%}')
