@@ -1,5 +1,12 @@
 import torch
 import torch.nn.functional as F
+from sklearnex.ensemble import RandomForestClassifier
+from sklearnex.svm import SVC
+from sklearnex.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+from classification.feature_extraction import get_topological_features
+from torch_geometric.utils import to_networkx
+import networkit as nk
 
 
 def run_exp(dataset, model, sparsing_alg=None):
@@ -20,4 +27,44 @@ def run_exp(dataset, model, sparsing_alg=None):
     pred = model(data).argmax(dim=1)
     correct = (pred[data.test_mask] == data.y[data.test_mask]).sum()
     acc = int(correct) / int(data.test_mask.sum())
+    return acc
+
+
+# TODO handle both torch and sklearn models in a single run_exp function?
+def run_exp_sklearn(dataset, model, sparsing_alg=None):
+    data = dataset[0]
+
+    # apply sparsification (optional)
+    if sparsing_alg is not None:
+        data = sparsing_alg.f(data)
+
+    # extract topological features from the graphs
+    G_nx = to_networkx(data, to_undirected=True)
+    G_nk = nk.nxadapter.nx2nk(G_nx)
+
+    X = get_topological_features(G_nk)
+    y = data.y.numpy()
+
+    X_train, y_train, X_test, y_test = train_test_split(X, y, random_state=42)
+
+    # get model
+    if isinstance(model, SVC):
+        model = SVC(
+            kernel='rbf',
+            random_state=42
+        )
+    elif isinstance(model, RandomForestClassifier):
+        model = RandomForestClassifier(
+            n_estimators=100,
+            criterion='gini',
+            random_state=42
+        )
+    else:
+        raise Exception(f'Model {model} not supported')
+
+    # train and evaluate the model
+    model.fit(X_train, y_train)
+
+    y_pred = model.predict(X_test)
+    acc = accuracy_score(y_test, y_pred)
     return acc
