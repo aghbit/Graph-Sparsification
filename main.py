@@ -35,16 +35,18 @@ if __name__ == '__main__':
         for model_type, model_name in models:
             for algorithm_type, algorithm_name, powers in sparsing_list:
                 for power in powers:
-                    # acc = [run_exp(
-                    #     dataset,
-                    #     model=get_model(model_type, dataset),
-                    #     sparsing_alg=algorithm_type if power is None else algorithm_type(power)
-                    # ) for _ in range(run_num)]
-
-                    acc = [run_exp_sklearn(
-                        dataset,
-                        model=
-                    )]
+                    if model_name in ['RF', 'SVM']:
+                        acc = [run_exp_sklearn(
+                            dataset,
+                            model=model_type,
+                            sparsing_alg=algorithm_type if power is None else algorithm_type(power)
+                        )]
+                    else:
+                        acc = [run_exp(
+                            dataset,
+                            model=get_model(model_type, dataset),
+                            sparsing_alg=algorithm_type if power is None else algorithm_type(power)
+                        ) for _ in range(run_num)]
 
                     print(
                         f'{model_name} '
