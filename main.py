@@ -1,7 +1,7 @@
 import torch
 
 from datasets import datasets
-from experiment import run_exp
+from experiment import run_exp, run_exp_sklearn
 from classification.models import models
 from sparsing.sparsing_algorithms import sparsing_list
 
