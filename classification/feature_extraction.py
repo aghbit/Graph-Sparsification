@@ -22,6 +22,7 @@ def get_topological_features(G: nk.Graph) -> np.ndarray:
     - Betweenness Centrality
     - Eigenvector Centrality
     """
+    G.removeSelfLoops() # temporarily needed for WikiCS dataset
     degree_centrality = calculate_centrality_feature(G, DegreeCentrality)
     local_clustering_coefficient = calculate_centrality_feature(G, LocalClusteringCoefficient)
     betweenness_centrality = calculate_centrality_feature(G, Betweenness)

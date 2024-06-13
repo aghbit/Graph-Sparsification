@@ -49,19 +49,22 @@ class ForestFire(IndexMain):
 
 NORM_TAB = [-3, -2.75, -2.5, -2.25, -2]
 
+POWERS_OLD = [0.01, 0.02, 0.04, 0.06, 0.08, 0.1]
+POWERS = [0.01, 0.025, 0.05, 0.075, 0.1, 0.125, 0.15, 0.175, 0.2]
+
 sparsing_list = [
     (None, "NoSparsification", [None]),
     # (Random, "Rng", [(i + 1) / 100 for i in range(10)]),
     # (ArithmeticNorm, "ArithmeticNorm", [0.003]),
     # (GeometricNorm, "GeometricNorm", [(i + 1) / 1000 for i in range(20)]),
     # (HarmonicNorm, "HarmonicNorm", [(i + 1) / 1000 for i in range(20)]),
-    (Jaccard, "JaccardIndex", [0.01, 0.02, 0.04, 0.06, 0.08, 0.1]),
-    (CommonNeighbor, "CommonNeighborIndex", [0.01, 0.02, 0.04, 0.06, 0.08, 0.1]),
-    (PreferentialAttachment, "PreferentialAttachment", [0.01, 0.02, 0.04, 0.06, 0.08, 0.1]),
-    (AdamicAdar, "AdamicAdar", [0.01, 0.02, 0.04, 0.06, 0.08, 0.1]),
-    (AdjustedRand, "AdjustedRand", [0.01, 0.02, 0.04, 0.06, 0.08, 0.1]),
+    (Jaccard, "JaccardIndex", POWERS),
+    (CommonNeighbor, "CommonNeighborIndex", POWERS),
+    (PreferentialAttachment, "PreferentialAttachment", POWERS),
+    (AdamicAdar, "AdamicAdar", POWERS),
+    (AdjustedRand, "AdjustedRand", POWERS),
     #(AlgebraicDistance, "AlgebraicDistance", [0.01, 0.02, 0.04, 0.06, 0.08, 0.1]),
-    (Katz, "Katz", [0.01, 0.02, 0.04, 0.06, 0.08, 0.1]),
+    (Katz, "Katz", POWERS),
     # (Jaccard, "JaccardIndex", NORM_TAB),
     # (CommonNeighbor, "CommonNeighborIndex", NORM_TAB),
     # (PreferentialAttachment, "PreferentialAttachment", NORM_TAB),
@@ -69,6 +72,6 @@ sparsing_list = [
     # (AdjustedRand, "AdjustedRand", NORM_TAB),
     #(AlgebraicDistance, "AlgebraicDistance", NORM_TAB),
     #(Katz, "Katz", NORM_TAB),
-    (LDS, "LocalDegreeScore", [0.01, 0.02, 0.04, 0.06, 0.08, 0.1]),
-    (ForestFire, "ForestFire", [0.01, 0.02, 0.04, 0.06, 0.08, 0.1]),
+    (LDS, "LocalDegreeScore", POWERS),
+    (ForestFire, "ForestFire", POWERS),
 ]

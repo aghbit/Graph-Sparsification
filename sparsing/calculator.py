@@ -82,7 +82,11 @@ class LDSCalc(Calculate):
         local_degree_score = self._method(graph)
         local_degree_score.run()
         scores = local_degree_score.scores()
-        return np.array(scores, dtype=np.float32)
+        scores = np.array(scores, dtype=np.float32)
+        scores = scores[np.isfinite(scores)]
+        if self._norm:
+            scores = (scores - np.mean(scores)) / (np.std(scores) + np.finfo(np.float32).eps)
+        return scores
 
 
 class FFSCalc(Calculate):
@@ -93,4 +97,10 @@ class FFSCalc(Calculate):
         forest_fire = self._method(graph, 0.5, 1.0)
         forest_fire.run()
         scores = forest_fire.scores()
-        return np.array(scores, dtype=np.float32)
+        scores = np.array(scores, dtype=np.float32)
+        scores = scores[np.isfinite(scores)]
+        if self._minmax:
+            scores = (scores - np.min(scores)) / (np.max(scores) - np.min(scores) + np.finfo(np.float32).eps)
+        if self._norm:
+            scores = (scores - np.mean(scores)) / (np.std(scores) + np.finfo(np.float32).eps)
+        return scores

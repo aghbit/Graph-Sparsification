@@ -1,9 +1,10 @@
+import numpy as np
 import torch
 import torch.nn.functional as F
 from sklearnex.ensemble import RandomForestClassifier
 from sklearnex.svm import SVC
 from sklearnex.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, precision_score, recall_score
 from classification.feature_extraction import get_topological_features
 from torch_geometric.utils import to_networkx
 import networkit as nk
@@ -42,6 +43,8 @@ def run_exp_sklearn(dataset, model, sparsing_alg=None):
     G_nx = to_networkx(data, to_undirected=True)
     G_nk = nk.nxadapter.nx2nk(G_nx)
 
+    # X = data.x.numpy()
+    # X = np.hstack((X, get_topological_features(G_nk)))
     X = get_topological_features(G_nk)
     y = data.y.numpy()
 
@@ -51,13 +54,13 @@ def run_exp_sklearn(dataset, model, sparsing_alg=None):
     if model == 'SVM':
         model = SVC(
             kernel='rbf',
-            random_state=42
+            #random_state=42
         )
     elif model == 'RF':
         model = RandomForestClassifier(
             n_estimators=100,
             criterion='gini',
-            random_state=42
+            #random_state=42
         )
     else:
         raise Exception(f'Model {model} not supported')
@@ -67,4 +70,8 @@ def run_exp_sklearn(dataset, model, sparsing_alg=None):
 
     y_pred = model.predict(X_test)
     acc = accuracy_score(y_test, y_pred)
-    return acc
+    precision = precision_score(y_test, y_pred, average=None)
+    #print(f'precision: {np.round(precision, 2)}')
+    recall = recall_score(y_test, y_pred, average=None)
+    #print(f'recall: {np.round(recall, 2)}')
+    return acc, precision, recall
