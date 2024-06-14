@@ -1,11 +1,8 @@
+import torch
+from networkit.nxadapter import nx2nk
 from torch_geometric.data import Data
 from torch_geometric.transforms import BaseTransform
-import torch
-
 from torch_geometric.utils import to_networkx
-from networkit.nxadapter import nx2nk
-
-from utils import show_cdf
 
 
 class BaseSparsing(BaseTransform):
@@ -39,6 +36,9 @@ class IndexMain(BaseSparsing):
             edge_weights = self._main_calc(G)
             # show_cdf(edge_weights)
             edge_index = edge_index[:, edge_weights >= self.power]
+            removed_edges_percent = 100 - len(edge_index[0]) * 100 / len(data.edge_index[0])
+            print(f"Power: {self.power}, {round(removed_edges_percent)}% edges removed")
+            edge_index = torch.cat([edge_index, torch.flip(edge_index, dims=[0])], dim=1)
             #edge_index = torch.cat([edge_index, torch.flip(edge_index, dims=[0])], dim=1)
             after = float(edge_index.shape[1])
             #print(f'after: {edge_index.shape}')

@@ -1,3 +1,6 @@
+from dataclasses import dataclass
+from typing import Any
+
 from sparsing.calculator import *
 from sparsing.abstract_sparsing_algorithm import IndexMain
 
@@ -49,29 +52,22 @@ class ForestFire(IndexMain):
 
 NORM_TAB = [-3, -2.75, -2.5, -2.25, -2]
 
-POWERS_OLD = [0.01, 0.02, 0.04, 0.06, 0.08, 0.1]
-POWERS = [0.01, 0.025, 0.05, 0.075, 0.1, 0.125, 0.15, 0.175, 0.2]
+@dataclass
+class SparsingData:
+    algorithm_type: Any
+    algorithm_name: str
+    powers: list
 
+
+powers = [0.01, 0.02, 0.04, 0.06, 0.08, 0.1]
 sparsing_list = [
-    (None, "NoSparsification", [None]),
-    # (Random, "Rng", [(i + 1) / 100 for i in range(10)]),
-    # (ArithmeticNorm, "ArithmeticNorm", [0.003]),
-    # (GeometricNorm, "GeometricNorm", [(i + 1) / 1000 for i in range(20)]),
-    # (HarmonicNorm, "HarmonicNorm", [(i + 1) / 1000 for i in range(20)]),
-    (Jaccard, "JaccardIndex", POWERS),
-    (CommonNeighbor, "CommonNeighborIndex", POWERS),
-    (PreferentialAttachment, "PreferentialAttachment", POWERS),
-    (AdamicAdar, "AdamicAdar", POWERS),
-    (AdjustedRand, "AdjustedRand", POWERS),
-    #(AlgebraicDistance, "AlgebraicDistance", [0.01, 0.02, 0.04, 0.06, 0.08, 0.1]),
-    (Katz, "Katz", POWERS),
-    # (Jaccard, "JaccardIndex", NORM_TAB),
-    # (CommonNeighbor, "CommonNeighborIndex", NORM_TAB),
-    # (PreferentialAttachment, "PreferentialAttachment", NORM_TAB),
-    # (AdamicAdar, "AdamicAdar", NORM_TAB),
-    # (AdjustedRand, "AdjustedRand", NORM_TAB),
-    #(AlgebraicDistance, "AlgebraicDistance", NORM_TAB),
-    #(Katz, "Katz", NORM_TAB),
-    (LDS, "LocalDegreeScore", POWERS),
-    (ForestFire, "ForestFire", POWERS),
+    SparsingData(None, "NoSparsification", [None]),
+    SparsingData(Jaccard, "JaccardIndex", powers),
+    SparsingData(CommonNeighbor, "CommonNeighborIndex", powers),
+    SparsingData(PreferentialAttachment, "PreferentialAttachment", powers),
+    SparsingData(AdamicAdar, "AdamicAdar", powers),
+    SparsingData(AdjustedRand, "AdjustedRand", powers),
+    SparsingData(Katz, "Katz", powers),
+    SparsingData(LDS, "LocalDegreeScore", powers),
+    SparsingData(ForestFire, "ForestFire", powers),
 ]

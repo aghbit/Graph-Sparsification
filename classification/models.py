@@ -1,11 +1,16 @@
+from dataclasses import dataclass
+from typing import Any
+
 import torch
 import torch.nn.functional as F
 from torch_geometric.nn import GCNConv
 from torch_geometric.nn import Linear
 from torch_geometric.nn import SGConv
-from torch_geometric.nn.models import GCN, GraphSAGE, GIN, PNA, GAT
-from sklearnex.ensemble import RandomForestClassifier
-from sklearnex.svm import SVC
+
+@dataclass
+class ModelData:
+    model_type: Any
+    model_name: str
 
 class GCN_CUSTOM(torch.nn.Module):
     def __init__(self, dataset):
@@ -33,7 +38,7 @@ class SGC_CUSTOM(torch.nn.Module):
         super().__init__()
         self.conv1 = SGConv(dataset.num_node_features, dataset.num_node_features, K=2)
         self.conv2 = SGConv(dataset.num_node_features, dataset.num_node_features, K=2)
-        self.lin1 = Linear(dataset.dataset.num_node_features, dataset.num_classes)
+        self.lin1 = Linear(dataset.num_node_features, dataset.num_classes)
 
     def forward(self, x, edge_index):
         x = self.conv1(x, edge_index)
@@ -50,13 +55,13 @@ class SGC_CUSTOM(torch.nn.Module):
 
 
 models = [
-    # (GCN_CUSTOM, "GCN_CUSTOM"),
-    #(SGC_CUSTOM, "SGC_CUSTOM"),
-    # (GCN, "GCN"),
-    # (GraphSAGE, "GraphSAGE"),
-    # (GIN, "GIN"),
-    # (PNA, "PNA"),
-    # (GAT, "GAT"),
-    #(SVC, 'SVM'),
-    (RandomForestClassifier, 'RF')
+    # ModelData(GCN_CUSTOM, "GCN_CUSTOM"),
+    ModelData(SGC_CUSTOM, "SGC_CUSTOM"),
+    # ModelData(GCN, "GCN"),
+    # ModelData(GraphSAGE, "GraphSAGE"),
+    # ModelData(GIN, "GIN"),
+    # ModelData(PNA, "PNA"),
+    # ModelData(GAT, "GAT"),
+    # ModelData(SVC, 'SVM'),
+    # ModelData(RandomForestClassifier, 'RF')
     ]
