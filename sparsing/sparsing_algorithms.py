@@ -50,24 +50,29 @@ class ForestFire(IndexMain):
         super().__init__(power=power, calc=calc)
 
 
-NORM_TAB = [-3, -2.75, -2.5, -2.25, -2]
+powers= {}
+powers['Cora'] = {}
+powers['Cora']['NoSparsification'] = [None]
+powers['Cora']['PreferentialAttachment'] = [(1e-3) / 2, (1e-3) / 1.5, (1e-3) / 1.1, (1e-3)]
+powers['Cora']['AdjustedRand'] = [0.08, 0.1, 0.11, 0.12]
+powers['Cora']['Katz'] = [(1e-3) / 3, (1e-3) / 1.5]
+powers['Cora']['LocalDegreeScore']= [1e-3]
+powers['CiteSeer'] = {}
+powers['CiteSeer']['NoSparsification'] = [None]
+powers['CiteSeer']['PreferentialAttachment'] = [1e-4, (1e-3) / 2]
+powers['CiteSeer']['AdjustedRand'] = [0.06, 0.065, 0.068]
+powers['CiteSeer']['Katz'] = [1e-15, 1e-3 / 4, 1e-3 / 3]
+powers['CiteSeer']['LocalDegreeScore'] = [1e-15, 0.01, 0.15]
+powers['CiteSeer']['ForestFire'] = [1e-15]
 
-@dataclass
-class SparsingData:
-    algorithm_type: Any
-    algorithm_name: str
-    powers: list
-
-
-powers = [0.01, 0.02, 0.04, 0.06, 0.08, 0.1]
 sparsing_list = [
-    SparsingData(None, "NoSparsification", [None]),
-    SparsingData(Jaccard, "JaccardIndex", powers),
-    SparsingData(CommonNeighbor, "CommonNeighborIndex", powers),
-    SparsingData(PreferentialAttachment, "PreferentialAttachment", powers),
-    SparsingData(AdamicAdar, "AdamicAdar", powers),
-    SparsingData(AdjustedRand, "AdjustedRand", powers),
-    SparsingData(Katz, "Katz", powers),
-    SparsingData(LDS, "LocalDegreeScore", powers),
-    SparsingData(ForestFire, "ForestFire", powers),
+    None,
+    Jaccard,
+    CommonNeighbor,
+    PreferentialAttachment,
+    AdamicAdar,
+    AdjustedRand,
+    Katz,
+    LDS,
+    ForestFire,
 ]

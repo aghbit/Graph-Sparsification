@@ -27,21 +27,14 @@ class IndexMain(BaseSparsing):
             edge_index = data.edge_index
             mask = edge_index[0] < edge_index[1]
             edge_index = edge_index[:, mask]
-            #print(f'before: {edge_index.shape}')
             before = float(edge_index.shape[1])
             G = to_networkx(data, to_undirected=True)
             G = nx2nk(G)
             G.removeSelfLoops()
-            G.indexEdges()  # INDEX EDGES AFTER REMOVING SELF LOOPS, OTHERWISE ERRORS WILL OCCUR
+            G.indexEdges()
             edge_weights = self._main_calc(G)
-            # show_cdf(edge_weights)
             edge_index = edge_index[:, edge_weights >= self.power]
-            removed_edges_percent = 100 - len(edge_index[0]) * 100 / len(data.edge_index[0])
-            print(f"Power: {self.power}, {round(removed_edges_percent)}% edges removed")
-            edge_index = torch.cat([edge_index, torch.flip(edge_index, dims=[0])], dim=1)
-            #edge_index = torch.cat([edge_index, torch.flip(edge_index, dims=[0])], dim=1)
             after = float(edge_index.shape[1])
-            #print(f'after: {edge_index.shape}')
             print(f'Removed {(1 - (after / before)):.2%} of edges')
             data.edge_index = edge_index
         return data
