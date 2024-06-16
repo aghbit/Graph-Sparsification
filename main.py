@@ -50,10 +50,12 @@ if __name__ == '__main__':
                         print(
                             f'{result["Model Name"]} '
                             f'on {result["Dataset"]} '
-                            f'with {result["Sparsing Name"]} (power {result['Power']}) '
-                            f'sparsing: {result['Accuracy Mean']} '
-                            f'± {result['Accuracy Std']}')
+                            f'with {result["Sparsing Name"]} (power {result["Power"]}) '
+                            f'sparsing: {result["Accuracy Mean"]} '
+                            f'± {result["Accuracy Std"]}')
+
                         results.append(result)
+
                 except KeyError:
                     results.append({
                     'Model Name': model_data.model_name,
@@ -66,5 +68,5 @@ if __name__ == '__main__':
                     print(f'{model_data.model_name} on {dataset} with {sparsing_name} sparsing: No powers found')
                     continue
     results_df = pd.DataFrame(results)
-    results_df.to_csv('results.csv', index=False)
+    results_df.to_csv('additional_files/results.csv', index=False)
 
