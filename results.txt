@@ -1,5 +1,11 @@
-Experiment results:
+Results:
 
-
-WikiCS():
-
+SGC_CUSTOM on Cora() with NoSparsification (power None) sparsing: 79.60% ± 1.16%
+SGC_CUSTOM on Cora() with AdjustedRand (power 0.01) sparsing: 66.72% ± 3.40%
+SGC_CUSTOM on Cora() with AdjustedRand (power 0.02) sparsing: 66.90% ± 3.51%
+SGC_CUSTOM on Cora() with AdjustedRand (power 0.05) sparsing: 67.68% ± 2.48%
+SGC_CUSTOM on Cora() with AdjustedRand (power 0.08) sparsing: 67.32% ± 2.87%
+SGC_CUSTOM on Cora() with AdjustedRand (power 0.1) sparsing: 66.76% ± 4.55%
+SGC_CUSTOM on Cora() with AdjustedRand (power 0.11) sparsing: 67.49% ± 3.26%
+SGC_CUSTOM on Cora() with AdjustedRand (power 0.12) sparsing: 66.44% ± 3.90%
+SGC_CUSTOM on Cora() with LDS (power 0.0001) sparsing: 68.23% ± 2.05%

@@ -53,10 +53,10 @@ class ForestFire(IndexMain):
 powers= {}
 powers['Cora'] = {}
 powers['Cora']['NoSparsification'] = [None]
-powers['Cora']['PreferentialAttachment'] = [(1e-3) / 2, (1e-3) / 1.5, (1e-3) / 1.1, (1e-3)]
-powers['Cora']['AdjustedRand'] = [0.08, 0.1, 0.11, 0.12]
-powers['Cora']['Katz'] = [(1e-3) / 3, (1e-3) / 1.5]
-powers['Cora']['LocalDegreeScore']= [1e-3]
+# powers['Cora']['PreferentialAttachment'] = [(1e-3) / 2, (1e-3) / 1.5, (1e-3) / 1.1, (1e-3)]
+powers['Cora']['AdjustedRand'] = [0.01, 0.02, 0.05, 0.08, 0.1, 0.11, 0.12]
+# powers['Cora']['Katz'] = [(1e-3) / 3, (1e-3) / 1.5]
+powers['Cora']['LDS'] = [1e-4]
 powers['CiteSeer'] = {}
 powers['CiteSeer']['NoSparsification'] = [None]
 powers['CiteSeer']['PreferentialAttachment'] = [1e-4, (1e-3) / 2]
@@ -71,8 +71,8 @@ sparsing_list = [
     # CommonNeighbor,
     # PreferentialAttachment,
     # AdamicAdar,
-    # AdjustedRand,
+    AdjustedRand,
     # Katz,
-    # LDS,
+    LDS,
     # ForestFire,
 ]

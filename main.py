@@ -22,6 +22,8 @@ def get_model(model_type, dataset):
 
 if __name__ == '__main__':
     run_num = 10
+    with open('results.txt', 'w') as f:
+        f.write('Results:\n\n')
     for dataset in datasets:
         for model_data in models:
             for sparsing in sparsing_list:
@@ -33,12 +35,15 @@ if __name__ == '__main__':
                         experiment_dto = ExperimentDto(dataset, model, sparsing_alg)
                         acc = [run_exp(experiment_dto) for _ in range(run_num)]
 
-                        print(
+                        result = (
                             f'{model_data.model_name} '
                             f'on {dataset} '
                             f'with {sparsing_name} (power {power}) '
                             f'sparsing: {torch.tensor(acc).mean():.2%} '
                             f'± {torch.tensor(acc).std():.2%}')
+                        print(result)
+                        with open('results.txt', 'a') as f:
+                            f.write(result + '\n')
                 except KeyError:
                     print(f'{model_data.model_name} on {dataset} with {sparsing_name} sparsing: No powers found')
                     continue
