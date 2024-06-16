@@ -33,7 +33,9 @@ if __name__ == '__main__':
                         sparsing_alg = sparsing if power is None else sparsing(power)
                         model = get_model(model_data.model_type, dataset)
                         experiment_dto = ExperimentDto(dataset, model, sparsing_alg)
-                        acc = [run_exp(experiment_dto) for _ in range(run_num)]
+                        run_results = [run_exp(experiment_dto) for _ in range(run_num)]
+                        acc, removed_percentages = zip(*run_results)
+                        removed_percentage = removed_percentages[0]
 
                         result = ({
                             'Model Name': model_data.model_name,
@@ -41,7 +43,8 @@ if __name__ == '__main__':
                             'Sparsing Name': sparsing_name,
                             'Power': f'{power:.2g}' if power is not None else 'None',
                             'Accuracy Mean': f'{torch.tensor(acc).mean():.2%}',
-                            'Accuracy Std': f'{torch.tensor(acc).std():.2%}'
+                            'Accuracy Std': f'{torch.tensor(acc).std():.2%}',
+                            'Removed %': f'{removed_percentage:.2%}' if removed_percentage is not None else 'N/A'
                         })
                         
                         print(
