@@ -22,7 +22,7 @@ def run_exp(experiment_dto: ExperimentDto):
     optimizer = torch.optim.Adam(params=model.parameters(), lr=0.01, weight_decay=5e-4)
     model.train()
 
-    for epoch in range(50):
+    for epoch in range(200):
         optimizer.zero_grad()
         out = model(data.x, data.edge_index)
         loss = F.nll_loss(out[data.train_mask], data.y[data.train_mask])

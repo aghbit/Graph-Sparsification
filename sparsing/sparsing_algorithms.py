@@ -67,12 +67,12 @@ powers['CiteSeer']['ForestFire'] = [1e-15]
 
 sparsing_list = [
     None,
-    Jaccard,
-    CommonNeighbor,
-    PreferentialAttachment,
-    AdamicAdar,
-    AdjustedRand,
-    Katz,
-    LDS,
-    ForestFire,
+    # Jaccard,
+    # CommonNeighbor,
+    # PreferentialAttachment,
+    # AdamicAdar,
+    # AdjustedRand,
+    # Katz,
+    # LDS,
+    # ForestFire,
 ]
