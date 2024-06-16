@@ -3,6 +3,7 @@ from typing import Any
 import torch
 import torch.nn.functional as F
 import torch_geometric.datasets as datasets
+from typing import List
 
 
 @dataclass
@@ -17,8 +18,9 @@ def run_exp(experiment_dto: ExperimentDto):
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     data = dataset[0].to(device)
+    removed_percentage = None
     if sparsing_alg is not None:
-        data = sparsing_alg.f(data)
+        data, removed_percentage = sparsing_alg.f(data)
     optimizer = torch.optim.Adam(params=model.parameters(), lr=0.01, weight_decay=5e-4)
     model.train()
 
@@ -32,4 +34,4 @@ def run_exp(experiment_dto: ExperimentDto):
     pred = model(data.x, data.edge_index).argmax(dim=1)
     correct = (pred[data.test_mask] == data.y[data.test_mask]).sum()
     acc = int(correct) / int(data.test_mask.sum())
-    return acc
+    return acc, removed_percentage # acc
