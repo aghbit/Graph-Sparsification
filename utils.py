@@ -1,5 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import torch
+
 
 def show_cdf(data, percentile_threshold=95):
     sorted_data = np.sort(data)
@@ -19,3 +21,15 @@ def show_cdf(data, percentile_threshold=95):
     plt.legend()
     print(f"Value at {percentile_threshold}% threshold: {threshold_value:.2f}")
     plt.show()
+
+def get_coauthor_masks(dataset_name: str, device: str):
+    train_mask, test_mask = None, None
+    if dataset_name == 'CS':
+        train_mask, test_mask = torch.zeros(18333, dtype=torch.int).to(device), torch.zeros(18333, dtype=torch.int).to(device)
+        train_mask[:14666] = 1
+        test_mask[14666:] = 1
+    elif dataset_name == 'Physics':
+        train_mask, test_mask = torch.zeros(34493, dtype=torch.int).to(device), torch.zeros(34493, dtype=torch.int).to(device)
+        train_mask[:27594] = 1
+        test_mask[27594:] = 1
+    return train_mask, test_mask

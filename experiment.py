@@ -4,6 +4,7 @@ import torch
 import torch.nn.functional as F
 import torch_geometric.datasets as datasets
 from typing import List
+from utils import get_coauthor_masks
 
 
 @dataclass
@@ -15,16 +16,19 @@ class ExperimentDto:
 
 def run_exp(experiment_dto: ExperimentDto):
     dataset, model, sparsing_alg = experiment_dto.dataset, experiment_dto.model, experiment_dto.sparsing_alg
-
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     data = dataset[0].to(device)
+
+    if dataset.name in ['Physics', 'CS']:
+        train_mask, test_mask = get_coauthor_masks(dataset.name, device)
+        data.train_mask = train_mask
+        data.test_mask = test_mask
+
     removed_percentage = None
     if sparsing_alg is not None:
         data, removed_percentage = sparsing_alg.f(data)
     optimizer = torch.optim.AdamW(params=model.parameters(), lr=0.01, weight_decay=5e-4)
     model.train()
-
-
 
     for epoch in range(100):
         optimizer.zero_grad()

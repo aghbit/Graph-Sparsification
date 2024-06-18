@@ -81,8 +81,8 @@ powers['Physics']['CommonNeighbor'] = [1e-15] #removes minimum 4.42%
 powers['Physics']['PreferentialAttachment'] = [1e-4, (1e-3)/5, (1e-3)/3]
 powers['Physics']['AdamicAdar'] = [1e-15, 0.005, 0.006] #removes minimum 4.42%
 powers['Physics']['AdjustedRand'] = [0.02, 0.021, 0.0215, 0.022, 0.025]
-powers['Physics']['Katz'] = [1e-4] #0.84%
-powers['Physics']['Katz'] = [1e-3]
+# powers['Physics']['Katz'] = [1e-4] #0.84%
+# powers['Physics']['Katz'] = [1e-3]
 powers['Physics']['LDS'] = [1e-15, 0.04, 0.06, 0.08, 0.1] #removes minimum 2.12%
 
 powers['CS'] = {}
