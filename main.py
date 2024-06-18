@@ -22,7 +22,7 @@ def get_model(model_type, dataset):
 
 
 if __name__ == '__main__':
-    run_num = 1
+    run_num = 10
     results = []
     for dataset in datasets:
         for model_data in models:
@@ -50,17 +50,9 @@ if __name__ == '__main__':
                         print(
                             f'{result["Model Name"]} '
                             f'on {result["Dataset"]} '
-                            f'with {result["Sparsing Name"]} (power {result['
-                        Power
-                        ']}) '
-                        f'sparsing: {result['
-                        Accuracy
-                        Mean
-                        ']} '
-                        f'± {result['
-                        Accuracy
-                        Std
-                        ']}')
+                            f'with {result["Sparsing Name"]} (power {result["Power"]}) '
+                            f'sparsing: {result["Accuracy Mean"]} '
+                            f'± {result["Accuracy Std"]}')
                         results.append(result)
                 except KeyError:
                     results.append({
