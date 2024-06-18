@@ -1,18 +1,10 @@
 Model Name,Dataset,Sparsing Name,Power,Accuracy Mean,Accuracy Std,Removed %
-SGC_CUSTOM,Cora,NoSparsification,None,79.31%,0.62%,N/A
-SGC_CUSTOM,Cora,Jaccard,,,,
-SGC_CUSTOM,Cora,CommonNeighbor,,,,
-SGC_CUSTOM,Cora,PreferentialAttachment,5e-05,68.49%,2.19%,1.08%
-SGC_CUSTOM,Cora,PreferentialAttachment,0.0002,68.95%,1.89%,2.29%
-SGC_CUSTOM,Cora,PreferentialAttachment,0.00059,68.03%,2.76%,3.64%
-SGC_CUSTOM,Cora,PreferentialAttachment,0.00067,67.25%,3.28%,6.59%
-SGC_CUSTOM,Cora,AdamicAdar,,,,
-SGC_CUSTOM,Cora,AdjustedRand,0.02,67.54%,2.92%,1.12%
-SGC_CUSTOM,Cora,AdjustedRand,0.06,68.93%,1.94%,2.94%
-SGC_CUSTOM,Cora,AdjustedRand,0.08,67.22%,3.01%,3.35%
-SGC_CUSTOM,Cora,AdjustedRand,0.1,69.37%,2.09%,5.57%
-SGC_CUSTOM,Cora,Katz,1e-15,66.38%,3.47%,1.80%
-SGC_CUSTOM,Cora,Katz,0.0001,68.76%,2.27%,2.61%
-SGC_CUSTOM,Cora,Katz,0.00033,68.67%,1.57%,6.67%
-SGC_CUSTOM,Cora,LDS,1e-15,66.78%,3.23%,9.21%
-SGC_CUSTOM,Cora,ForestFire,,,,
+SGC_CUSTOM,cora,NoSparsification,None,N/A,N/A,N/A
+SGC_CUSTOM,cora,Jaccard,None,N/A,N/A,N/A
+SGC_CUSTOM,cora,CommonNeighbor,None,N/A,N/A,N/A
+SGC_CUSTOM,cora,PreferentialAttachment,None,N/A,N/A,N/A
+SGC_CUSTOM,cora,AdamicAdar,None,N/A,N/A,N/A
+SGC_CUSTOM,cora,AdjustedRand,None,N/A,N/A,N/A
+SGC_CUSTOM,cora,Katz,None,N/A,N/A,N/A
+SGC_CUSTOM,cora,LDS,None,N/A,N/A,N/A
+SGC_CUSTOM,cora,ForestFire,None,N/A,N/A,N/A
