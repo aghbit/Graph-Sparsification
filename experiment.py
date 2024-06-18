@@ -21,10 +21,12 @@ def run_exp(experiment_dto: ExperimentDto):
     removed_percentage = None
     if sparsing_alg is not None:
         data, removed_percentage = sparsing_alg.f(data)
-    optimizer = torch.optim.Adam(params=model.parameters(), lr=0.01, weight_decay=5e-4)
+    optimizer = torch.optim.AdamW(params=model.parameters(), lr=0.01, weight_decay=5e-4)
     model.train()
 
-    for epoch in range(200):
+
+
+    for epoch in range(100):
         optimizer.zero_grad()
         out = model(data.x, data.edge_index)
         loss = F.nll_loss(out[data.train_mask], data.y[data.train_mask])
