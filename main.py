@@ -1,16 +1,22 @@
-import torch
-import pandas as pd
+import warnings
 
-from classification.models import models
+import pandas as pd
+import torch
+
 from datasets import datasets
 from experiment import run_exp, ExperimentDto
+from models import models
 from sparsing.sparsing_algorithms import sparsing_list, powers
-import warnings
 
 warnings.filterwarnings('ignore')
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 print(f'Using device: {device}')
+
+from dataclasses import dataclass, field
+from typing import Optional
+import torch
+from result import Result
 
 
 def get_model(model_type, dataset):
@@ -22,7 +28,7 @@ def get_model(model_type, dataset):
 
 
 if __name__ == '__main__':
-    run_num = 10
+    run_num = 1
     results = []
     for dataset in datasets:
         for model_data in models:
@@ -37,33 +43,14 @@ if __name__ == '__main__':
                         acc, removed_percentages = zip(*run_results)
                         removed_percentage = removed_percentages[0]
 
-                        result = ({
-                            'Model Name': model_data.model_name,
-                            'Dataset': dataset.name,
-                            'Sparsing Name': sparsing_name,
-                            'Power': f'{power:.2g}' if power is not None else 'None',
-                            'Accuracy Mean': f'{torch.tensor(acc).mean():.2%}',
-                            'Accuracy Std': f'{torch.tensor(acc).std():.2%}',
-                            'Removed %': f'{removed_percentage:.2%}' if removed_percentage is not None else 'N/A'
-                        })
+                        result = Result(model_data.model_name, dataset.name, sparsing_name, acc, power,
+                                        removed_percentage)
+                        print(result)
+                        results.append(result.as_dict())
 
-                        print(
-                            f'{result["Model Name"]} '
-                            f'on {result["Dataset"]} '
-                            f'with {result["Sparsing Name"]} (power {result["Power"]}) '
-                            f'sparsing: {result["Accuracy Mean"]} '
-                            f'± {result["Accuracy Std"]}')
-                        results.append(result)
                 except KeyError:
-                    results.append({
-                        'Model Name': model_data.model_name,
-                        'Dataset': dataset.name,
-                        'Sparsing Name': sparsing_name,
-                        'Power': None,
-                        'Accuracy Mean': None,
-                        'Accuracy Std': None,
-                    })
+                    result = Result(model_data.model_name, dataset.name, sparsing_name, None, None, None)
+                    results.append(result.as_dict())
                     print(f'{model_data.model_name} on {dataset} with {sparsing_name} sparsing: No powers found')
-                    continue
     results_df = pd.DataFrame(results)
-    results_df.to_csv('results.csv', index=False)
+    results_df.to_csv('additional_files/results.csv', index=False)
