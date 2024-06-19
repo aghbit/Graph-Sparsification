@@ -35,7 +35,8 @@ class IndexMain(BaseSparsing):
             edge_weights = self._main_calc(G)
             edge_index = edge_index[:, edge_weights >= self.power]
             after = float(edge_index.shape[1])
-            print(f'Removed {(1 - (after / before)):.2%} of edges')
+            #print(f'Removed {(1 - (after / before)):.2%} of edges')
+            edge_index = torch.cat([edge_index, torch.flip(edge_index, dims=[0])], dim=1)
             data.edge_index = edge_index
         return data, (1-(after/before))
 

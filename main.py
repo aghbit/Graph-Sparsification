@@ -10,7 +10,7 @@ from sparsing.sparsing_algorithms import sparsing_list, powers
 
 warnings.filterwarnings('ignore')
 
-device = "cuda" if torch.cuda.is_available() else "cpu"
+device = torch.device('cpu')# "cuda" if torch.cuda.is_available() else "cpu"
 print(f'Using device: {device}')
 
 from dataclasses import dataclass, field
@@ -37,6 +37,8 @@ if __name__ == '__main__':
                 try:
                     for power in powers[dataset.name][sparsing_name]:
                         sparsing_alg = sparsing if power is None else sparsing(power)
+                        torch.manual_seed(42)
+                        torch.cuda.manual_seed_all(42)
                         model = get_model(model_data.model_type, dataset)
                         experiment_dto = ExperimentDto(dataset, model, sparsing_alg)
                         run_results = [run_exp(experiment_dto) for _ in range(run_num)]

@@ -1,5 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import torch
+
 
 def show_cdf(data, percentile_threshold=95):
     sorted_data = np.sort(data)

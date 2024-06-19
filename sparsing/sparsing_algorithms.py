@@ -58,6 +58,8 @@ powers['Cora']['PreferentialAttachment'] = [(1e-4) / 2, (1e-3) / 5, (1e-3) / 1.7
 powers['Cora']['AdjustedRand'] = [0.02, 0.06, 0.08, 0.105]
 powers['Cora']['Katz'] = [(1e-15), (1e-4), (1e-3) / 3]
 powers['Cora']['LDS'] = [1e-15] #removes 9.21% minimum
+powers['cora'] = {}
+powers['cora']['NoSparsification'] = [None]
 powers['CiteSeer'] = {}
 powers['CiteSeer']['NoSparsification'] = [None]
 powers['CiteSeer']['PreferentialAttachment'] = [1e-15, 1e-3 / 2] #removes 5.47% minimum
@@ -73,25 +75,25 @@ powers['PubMed']['Katz'] = [1e-15, 1e-6, 1e-4] #removes minimum 1.10%
 powers['PubMed']['LDS'] = [1e-3, 0.04, 0.06, 0.08, 0.1]
 
 powers['Physics'] = {}
-# powers['Physics']['NoSparsification'] = [None]
-# powers['Physics']['Jaccard'] = [1e-15, 0.015, 0.02] #removes minimum 4.42%
-# powers['Physics']['CommonNeighbor'] = [1e-15] #removes minimum 4.42%
-# powers['Physics']['PreferentialAttachment'] = [1e-4, (1e-3)/5, (1e-3)/3]
-# powers['Physics']['AdamicAdar'] = [1e-15, 0.005, 0.006] #removes minimum 4.42%
-# powers['Physics']['AdjustedRand'] = [0.02, 0.021, 0.0215, 0.022, 0.025]
+powers['Physics']['NoSparsification'] = [None]
+powers['Physics']['Jaccard'] = [1e-15, 0.015, 0.02] #removes minimum 4.42%
+powers['Physics']['CommonNeighbor'] = [1e-15] #removes minimum 4.42%
+powers['Physics']['PreferentialAttachment'] = [1e-4, (1e-3)/5, (1e-3)/3]
+powers['Physics']['AdamicAdar'] = [1e-15, 0.005, 0.006] #removes minimum 4.42%
+powers['Physics']['AdjustedRand'] = [0.02, 0.021, 0.0215, 0.022, 0.025]
 # powers['Physics']['Katz'] = [1e-4] #0.84%
 # powers['Physics']['Katz'] = [1e-3]
-# powers['Physics']['LDS'] = [1e-15, 0.04, 0.06, 0.08, 0.1] #removes minimum 2.12%
+powers['Physics']['LDS'] = [1e-15, 0.04, 0.06, 0.08, 0.1] #removes minimum 2.12%
 
 powers['CS'] = {}
-# powers['CS']['NoSparsification'] = [None]
-# #powers['CS']['Jaccard'] = [1e-15] #removes minimum 12.46%
-# #powers['CS']['CommonNeighbor'] = [1e-15] #removes minimum 12.46%
-# powers['CS']['PreferentialAttachment'] = [(1e-3)/5, (1e-3)/3, (1e-3)/2, (1e-3)/1.5, 1e-3]
-# #powers['CS']['AdamicAdar'] = [1e-15] #removes minimum 12.46%
-# powers['CS']['AdjustedRand'] = [0.011, 0.013, 0.014, 0.015, 0.0155, 0.016]
-# powers['CS']['Katz'] = [(1e-3)/6 (1e-3)/4, (1e-3)/2, (1e-3)/1.5, 1e-3]
-# powers['CS']['LDS'] = [1e-15, 0.05, 0.08] #removes minimum 4.10%
+powers['CS']['NoSparsification'] = [None]
+#powers['CS']['Jaccard'] = [1e-15] #removes minimum 12.46%
+#powers['CS']['CommonNeighbor'] = [1e-15] #removes minimum 12.46%
+powers['CS']['PreferentialAttachment'] = [(1e-3)/5, (1e-3)/3, (1e-3)/2, (1e-3)/1.5, 1e-3]
+#powers['CS']['AdamicAdar'] = [1e-15] #removes minimum 12.46%
+powers['CS']['AdjustedRand'] = [0.011, 0.013, 0.014, 0.015, 0.0155, 0.016]
+powers['CS']['Katz'] = [(1e-3)/6, (1e-3)/4, (1e-3)/2, (1e-3)/1.5, 1e-3]
+powers['CS']['LDS'] = [1e-15, 0.05, 0.08] #removes minimum 4.10%
 
 sparsing_list = [
     None,
@@ -102,5 +104,5 @@ sparsing_list = [
     AdjustedRand,
     Katz,
     LDS,
-    ForestFire,
+    #ForestFire,
 ]
