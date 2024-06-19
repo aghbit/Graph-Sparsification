@@ -33,25 +33,15 @@ class GCN_CUSTOM(torch.nn.Module):
         return F.log_softmax(x, dim=1)
 
 
+# SGC Feature Extractor
 class SGC_CUSTOM(torch.nn.Module):
     def __init__(self, dataset):
         super().__init__()
         self.conv1 = SGConv(dataset.num_node_features, dataset.num_node_features, K=2)
-        self.conv2 = SGConv(dataset.num_node_features, dataset.num_node_features, K=2)
-        self.lin1 = Linear(dataset.num_node_features, dataset.num_classes)
+        self.conv1.lin = torch.nn.Identity()
 
     def forward(self, x, edge_index):
-        x = self.conv1(x, edge_index)
-        x = F.relu(x)
-        x = F.dropout(x, training=self.training)
-
-        x = self.conv2(x, edge_index)
-        x = F.relu(x)
-        x = F.dropout(x, training=self.training)
-
-        x = self.lin1(x)
-
-        return F.log_softmax(x, dim=1)
+        return self.conv1(x, edge_index)
 
 
 models = [
