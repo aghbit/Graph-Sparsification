@@ -3,7 +3,7 @@ from networkit.nxadapter import nx2nk
 from torch_geometric.data import Data
 from torch_geometric.transforms import BaseTransform
 from torch_geometric.utils import to_networkx
-from typing import List
+
 
 class BaseSparsing(BaseTransform):
     def __init__(self, power: float = None):
@@ -15,8 +15,8 @@ class BaseSparsing(BaseTransform):
 
 
 class IndexMain(BaseSparsing):
-    def __init__(self, power: int = None, calc=None):
-        super(IndexMain, self).__init__(power=power)
+    def __init__(self, percent2remove: int = None, calc=None):
+        super(IndexMain, self).__init__(power=percent2remove)
         self._calc = calc
 
     def _main_calc(self, G):
@@ -33,12 +33,18 @@ class IndexMain(BaseSparsing):
             G.removeSelfLoops()
             G.indexEdges()
             edge_weights = self._main_calc(G)
-            edge_index = edge_index[:, edge_weights >= self.power]
+
+            sorted_edge_weights = sorted(edge_weights)
+            index_of_one_percent = int(len(sorted_edge_weights) * 0.01)
+            threshold = sorted_edge_weights[index_of_one_percent]
+            print(f"Threshold for {self.power}%: {threshold}")
+
+            edge_index = edge_index[:, edge_weights >= threshold]
             after = float(edge_index.shape[1])
-            #print(f'Removed {(1 - (after / before)):.2%} of edges')
+            # print(f'Removed {(1 - (after / before)):.2%} of edges')
             edge_index = torch.cat([edge_index, torch.flip(edge_index, dims=[0])], dim=1)
             data.edge_index = edge_index
-        return data, (1-(after/before))
+        return data, (1 - (after / before))
 
     def f(self, data: Data) -> Data:
         return self.__call__(data)
