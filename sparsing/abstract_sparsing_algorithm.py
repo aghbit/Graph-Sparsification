@@ -1,3 +1,5 @@
+from math import ceil
+
 import torch
 from networkit.nxadapter import nx2nk
 from torch_geometric.data import Data
@@ -35,9 +37,9 @@ class IndexMain(BaseSparsing):
             edge_weights = self._main_calc(G)
 
             sorted_edge_weights = sorted(edge_weights)
-            index_of_one_percent = int(len(sorted_edge_weights) * 0.01)
+            index_of_one_percent = ceil(len(sorted_edge_weights) * 0.01 * self.power)
             threshold = sorted_edge_weights[index_of_one_percent]
-            print(f"Threshold for {self.power}%: {threshold}")
+            print(f"Threshold for {self.power}%: {threshold}, index: {index_of_one_percent}")
 
             edge_index = edge_index[:, edge_weights >= threshold]
             after = float(edge_index.shape[1])
