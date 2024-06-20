@@ -32,8 +32,6 @@ if __name__ == '__main__':
 
                 for percent2remove in range(1, 8 + 1) if sparsing is not None else [None]:
                     sparsing_alg = sparsing if percent2remove is None else sparsing(percent2remove)
-                    torch.manual_seed(42)
-                    torch.cuda.manual_seed_all(42)
                     model = get_model(model_data.model_type, dataset)
                     experiment_dto = ExperimentDto(dataset, model, sparsing_alg)
                     run_results = [run_exp(experiment_dto) for _ in range(run_num)]
