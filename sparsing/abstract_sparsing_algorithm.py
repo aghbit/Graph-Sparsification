@@ -1,4 +1,4 @@
-from math import ceil
+from math import ceil, floor
 
 import torch
 from networkit.nxadapter import nx2nk
@@ -8,7 +8,7 @@ from torch_geometric.utils import to_networkx
 
 
 class BaseSparsing(BaseTransform):
-    def __init__(self, power: float = None):
+    def __init__(self, power: int = None):
         super(BaseSparsing, self).__init__()
         self.power = power
 
@@ -37,16 +37,15 @@ class IndexMain(BaseSparsing):
             edge_weights = self._main_calc(G)
 
             sorted_edge_weights = sorted(edge_weights)
-            index_of_one_percent = ceil(len(sorted_edge_weights) * 0.01 * self.power)
+            index_of_one_percent = floor(len(sorted_edge_weights) * 0.01 * self.power)
             threshold = sorted_edge_weights[index_of_one_percent]
-            print(f"Threshold for {self.power}%: {threshold}, index: {index_of_one_percent}")
-
-            edge_index = edge_index[:, edge_weights >= threshold]
+            edge_index = edge_index[:, edge_weights > threshold]
             after = float(edge_index.shape[1])
+
             # print(f'Removed {(1 - (after / before)):.2%} of edges')
             edge_index = torch.cat([edge_index, torch.flip(edge_index, dims=[0])], dim=1)
             data.edge_index = edge_index
         return data, (1 - (after / before))
 
-    def f(self, data: Data) -> Data:
+    def f(self, data: Data) -> tuple[Data, float]:
         return self.__call__(data)
