@@ -10,7 +10,7 @@ class Result:
     dataset: str
     sparsing_name: str
     acc: Optional[list[float]] = field(default=None, compare=False)
-    power: Optional[float] = field(default=None, compare=False)
+    percent2remove: Optional[float] = field(default=None, compare=False)
     removed_percentage: Optional[float] = field(default=None, compare=False)
 
     def __str__(self) -> str:
@@ -19,7 +19,7 @@ class Result:
             f"Model Name: {self.model_name}",
             f"Dataset: {self.dataset}",
             f"Sparsing Name: {self.sparsing_name}",
-            f"Power: {self.power:.2g}" if self.power is not None else "Power: None",
+            f"percent2remove: {self.percent2remove:.2g}" if self.percent2remove is not None else "Percent2remove: None",
         ]
 
         if self.acc:
@@ -46,7 +46,7 @@ class Result:
             'Model Name': self.model_name,
             'Dataset': self.dataset,
             'Sparsing Name': self.sparsing_name,
-            'Power': f'{self.power:.2g}' if self.power is not None else 'None',
+            'Power': f'{self.percent2remove:.2g}' if self.percent2remove is not None else 'None',
             'Accuracy Mean': acc_mean,
             'Accuracy Std': acc_std,
             'Removed %': f'{self.removed_percentage:.2%}' if self.removed_percentage is not None else 'N/A'
