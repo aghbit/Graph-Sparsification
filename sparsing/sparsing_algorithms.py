@@ -51,7 +51,7 @@ class ForestFire(IndexMain):
         super().__init__(percent2remove=power, calc=calc)
 
 sparsing_list = [
-    # None,
+    None,
     # Jaccard,
     # CommonNeighbor,
     PreferentialAttachment,
