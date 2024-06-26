@@ -57,7 +57,7 @@ sparsing_list = [
     PreferentialAttachment,
     AdamicAdar,
     AdjustedRand,
-    Katz,
+    # Katz,
     LDS,
     #ForestFire,
 ]
