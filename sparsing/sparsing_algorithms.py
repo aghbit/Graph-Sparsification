@@ -1,7 +1,3 @@
-from dataclasses import dataclass
-from typing import Any
-
-
 from sparsing.calculator import *
 from sparsing.abstract_sparsing_algorithm import IndexMain
 
@@ -53,10 +49,6 @@ class LSS(IndexMain):
 class SCAN(IndexMain):
     def __init__(self, power: int = None, calc=SCANCalc()):
         super().__init__(percent2remove=power, calc=calc)
-
-# class ForestFire(IndexMain):
-#     def __init__(self, power: int = None, calc=FFSCalc(minmax=True)):
-#         super().__init__(percent2remove=power, calc=calc)
 
 sparsing_list = [
     None,
