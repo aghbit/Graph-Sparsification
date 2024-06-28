@@ -50,6 +50,9 @@ class LSS(IndexMain):
     def __init__(self, power: int = None, calc=LSSCalc()):
         super().__init__(percent2remove=power, calc=calc)
 
+class SCAN(IndexMain):
+    def __init__(self, power: int = None, calc=SCANCalc()):
+        super().__init__(percent2remove=power, calc=calc)
 
 # class ForestFire(IndexMain):
 #     def __init__(self, power: int = None, calc=FFSCalc(minmax=True)):
@@ -63,7 +66,7 @@ sparsing_list = [
     #AdamicAdar,
     #AdjustedRand,
     #Katz,
-    #LDS,
+    LDS,
     LSS,
-    #ForestFire,
+    SCAN,
 ]

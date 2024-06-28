@@ -8,7 +8,7 @@ from networkit.linkprediction import (
     KatzIndex
 )
 
-from networkit.sparsification import LocalDegreeScore, LocalSimilarityScore, TriangleEdgeScore
+from networkit.sparsification import LocalDegreeScore, LocalSimilarityScore, TriangleEdgeScore, SCANStructuralSimilarityScore
 
 import numpy as np
 from networkit.graph import Graph
@@ -99,6 +99,11 @@ class LDSCalc(NetworkitSparsificationCalculate):
 
 class LSSCalc(NetworkitSparsificationCalculate):
     def __init__(self, method=LocalSimilarityScore):
+        super().__init__(method, triangles=True)
+
+
+class SCANCalc(NetworkitSparsificationCalculate):
+    def __init__(self, method=SCANStructuralSimilarityScore):
         super().__init__(method, triangles=True)
 
 
