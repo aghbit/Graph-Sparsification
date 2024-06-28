@@ -67,40 +67,38 @@ class KatzCalc(Calculate):
         super().__init__(method, minmax=minmax, norm=norm)
 
 
-def calculate_local_degree_score(graph: Graph) -> np.ndarray:
-    local_degree_score = LocalDegreeScore(graph)
-    local_degree_score.run()
-    scores = local_degree_score.scores()
-    return np.array(scores, dtype=np.float32)
+class NetworkitSparsificationCalculate(Calculate):
+    def __init__(self, method, minmax=False, norm=False):
+        super().__init__(method, minmax=minmax, norm=norm)
+
+    def run(self, graph: Graph):
+        calculated_score = self._method(graph)
+        calculated_score.run()
+        scores = calculated_score.scores()
+        scores = np.array(scores, dtype=np.float32)
+        scores = scores[np.isfinite(scores)]
+        if self._norm:
+            scores = (scores - np.mean(scores)) / (np.std(scores) + np.finfo(np.float32).eps)
+        return scores
 
 
-class LDSCalc(Calculate):
+class LDSCalc(NetworkitSparsificationCalculate):
     def __init__(self, method=LocalDegreeScore, minmax=False, norm=False):
         super().__init__(method, minmax=minmax, norm=norm)
-    
-    def run(self, graph: Graph) -> np.ndarray:
-        local_degree_score = self._method(graph)
-        local_degree_score.run()
-        scores = local_degree_score.scores()
-        scores = np.array(scores, dtype=np.float32)
-        scores = scores[np.isfinite(scores)]
-        if self._norm:
-            scores = (scores - np.mean(scores)) / (np.std(scores) + np.finfo(np.float32).eps)
-        return scores
 
 
-class FFSCalc(Calculate):
-    def __init__(self, method=ForestFireScore, minmax=False, norm=False):
-        super().__init__(method, minmax=minmax, norm=norm)
-
-    def run(self, graph: Graph) -> np.ndarray:
-        forest_fire = self._method(graph, 0.5, 1.0)
-        forest_fire.run()
-        scores = forest_fire.scores()
-        scores = np.array(scores, dtype=np.float32)
-        scores = scores[np.isfinite(scores)]
-        if self._minmax:
-            scores = (scores - np.min(scores)) / (np.max(scores) - np.min(scores) + np.finfo(np.float32).eps)
-        if self._norm:
-            scores = (scores - np.mean(scores)) / (np.std(scores) + np.finfo(np.float32).eps)
-        return scores
+# class FFSCalc(Calculate):
+#     def __init__(self, method=ForestFireScore, minmax=False, norm=False):
+#         super().__init__(method, minmax=minmax, norm=norm)
+#
+#     def run(self, graph: Graph) -> np.ndarray:
+#         forest_fire = self._method(graph, 0.5, 1.0)
+#         forest_fire.run()
+#         scores = forest_fire.scores()
+#         scores = np.array(scores, dtype=np.float32)
+#         scores = scores[np.isfinite(scores)]
+#         if self._minmax:
+#             scores = (scores - np.min(scores)) / (np.max(scores) - np.min(scores) + np.finfo(np.float32).eps)
+#         if self._norm:
+#             scores = (scores - np.mean(scores)) / (np.std(scores) + np.finfo(np.float32).eps)
+#         return scores

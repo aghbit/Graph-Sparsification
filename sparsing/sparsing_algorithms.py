@@ -46,18 +46,18 @@ class LDS(IndexMain):
         super().__init__(percent2remove=power, calc=calc)
 
 
-class ForestFire(IndexMain):
-    def __init__(self, power: int = None, calc=FFSCalc(minmax=True)):
-        super().__init__(percent2remove=power, calc=calc)
+# class ForestFire(IndexMain):
+#     def __init__(self, power: int = None, calc=FFSCalc(minmax=True)):
+#         super().__init__(percent2remove=power, calc=calc)
 
 sparsing_list = [
     None,
-    # Jaccard,
+    #Jaccard,
     # CommonNeighbor,
     PreferentialAttachment,
-    AdamicAdar,
+    #AdamicAdar,
     AdjustedRand,
-    Katz,
+    #Katz,
     LDS,
     #ForestFire,
 ]
