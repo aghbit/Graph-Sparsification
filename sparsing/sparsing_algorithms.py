@@ -42,7 +42,12 @@ class Katz(IndexMain):
 
 
 class LDS(IndexMain):
-    def __init__(self, power: int = None, calc=LDSCalc(minmax=True)):
+    def __init__(self, power: int = None, calc=LDSCalc()):
+        super().__init__(percent2remove=power, calc=calc)
+
+
+class LSS(IndexMain):
+    def __init__(self, power: int = None, calc=LSSCalc()):
         super().__init__(percent2remove=power, calc=calc)
 
 
@@ -54,10 +59,11 @@ sparsing_list = [
     None,
     #Jaccard,
     # CommonNeighbor,
-    PreferentialAttachment,
+    #PreferentialAttachment,
     #AdamicAdar,
-    AdjustedRand,
+    #AdjustedRand,
     #Katz,
-    LDS,
+    #LDS,
+    LSS,
     #ForestFire,
 ]
