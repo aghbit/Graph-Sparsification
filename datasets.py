@@ -10,10 +10,11 @@ datasets = [
     WebKB(root='/tmp/Winsconsin', name='Wisconsin'),
     #Reddit2(root='/tmp/Reddit'),
     #WikiCS(root='/tmp/WikiCS')
-
     # Twitch(root='/tmp/TwitchDE', name='DE'),
     # Twitch(root='/tmp/TwitchPT', name='PT'),
     # Twitch(root='/tmp/TwitchES', name='ES'),
+    #Amazon(root='/tmp/AmazonPhoto', name='Photo'),
+    #Amazon(root='/tmp/AmazonComputers', name='Computers')
     Amazon(root='/tmp/AmazonPhoto', name='Photo'),
     Amazon(root='/tmp/AmazonComputers', name='Computers')
 ]

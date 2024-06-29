@@ -1,4 +1,13 @@
 Model Name,Dataset,Sparsing Name,Power,Accuracy Mean,Accuracy Std,Removed %
+<<<<<<< HEAD
+SGC_CUSTOM,Cora,NoSparsification,None,88.65%,1.25%,N/A
+SGC_CUSTOM,Cora,SCAN,1,88.76%,1.26%,1.02%
+SGC_CUSTOM,Cora,SCAN,2,88.65%,1.53%,2.03%
+SGC_CUSTOM,Cora,SCAN,3,88.65%,1.39%,3.24%
+SGC_CUSTOM,Cora,SCAN,4,88.63%,1.40%,4.28%
+SGC_CUSTOM,Cora,SCAN,5,88.41%,1.42%,5.06%
+SGC_CUSTOM,Cora,SCAN,6,88.27%,1.46%,6.08%
+=======
 SGC_CUSTOM,photo,NoSparsification,None,94.35%,0.44%,N/A
 SGC_CUSTOM,photo,PreferentialAttachment,1,93.56%,0.58%,1.02%
 SGC_CUSTOM,photo,PreferentialAttachment,2,93.42%,0.53%,2.02%
@@ -65,3 +74,4 @@ SGC_CUSTOM,computers,LDS,5,90.99%,0.44%,5.00%
 SGC_CUSTOM,computers,LDS,6,90.86%,0.43%,6.02%
 SGC_CUSTOM,computers,LDS,7,90.93%,0.45%,7.00%
 SGC_CUSTOM,computers,LDS,8,90.87%,0.55%,8.00%
+>>>>>>> main

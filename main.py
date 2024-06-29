@@ -32,7 +32,6 @@ if __name__ == '__main__':
         for model_data in models:
             for sparsing in sparsing_list:
                 sparsing_name = sparsing.__name__ if sparsing is not None else 'NoSparsification'
-
                 for percent2remove in range(1, 9) if sparsing is not None else [None]:
                     sparsing_alg = sparsing if percent2remove is None else sparsing(percent2remove)
                     model = get_model(model_data.model_type, dataset)
@@ -50,5 +49,5 @@ if __name__ == '__main__':
     results_df.to_csv('additional_files/results.csv', index=False)
 
 end_time = time.time()
-
-print(f'Total time: {end_time - start_time} seconds')
+total_time = end_time - start_time
+print(f'Total time: {total_time} seconds ({total_time / 3600.0} hours)')
