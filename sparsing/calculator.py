@@ -122,3 +122,4 @@ class SCANCalc(NetworkitSparsificationCalculate):
 #         if self._norm:
 #             scores = (scores - np.mean(scores)) / (np.std(scores) + np.finfo(np.float32).eps)
 #         return scores
+#         return scores
