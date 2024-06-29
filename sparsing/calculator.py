@@ -8,7 +8,7 @@ from networkit.linkprediction import (
     KatzIndex
 )
 
-from networkit.sparsification import LocalDegreeScore, ForestFireScore
+from networkit.sparsification import LocalDegreeScore, LocalSimilarityScore, TriangleEdgeScore, SCANStructuralSimilarityScore
 
 import numpy as np
 from networkit.graph import Graph
@@ -30,6 +30,12 @@ class Calculate:
         if self._norm:
             scores = (scores - np.mean(scores)) / (np.std(scores) + np.finfo(np.float32).eps)
         return scores
+
+
+def get_triangles(G: Graph):
+    edge_triangles = TriangleEdgeScore(G)
+    edge_triangles.run()
+    return edge_triangles.scores()
 
 
 class JaccardCalc(Calculate):
@@ -67,21 +73,18 @@ class KatzCalc(Calculate):
         super().__init__(method, minmax=minmax, norm=norm)
 
 
-def calculate_local_degree_score(graph: Graph) -> np.ndarray:
-    local_degree_score = LocalDegreeScore(graph)
-    local_degree_score.run()
-    scores = local_degree_score.scores()
-    return np.array(scores, dtype=np.float32)
-
-
-class LDSCalc(Calculate):
-    def __init__(self, method=LocalDegreeScore, minmax=False, norm=False):
+class NetworkitSparsificationCalculate(Calculate):
+    def __init__(self, method, minmax=False, norm=False, triangles=False):
         super().__init__(method, minmax=minmax, norm=norm)
-    
-    def run(self, graph: Graph) -> np.ndarray:
-        local_degree_score = self._method(graph)
-        local_degree_score.run()
-        scores = local_degree_score.scores()
+        self.triangles = triangles
+
+    def run(self, graph: Graph):
+        if self.triangles:
+            calculated_score = self._method(graph, get_triangles(graph))
+        else:
+            calculated_score = self._method(graph)
+        calculated_score.run()
+        scores = calculated_score.scores()
         scores = np.array(scores, dtype=np.float32)
         scores = scores[np.isfinite(scores)]
         if self._norm:
@@ -89,18 +92,33 @@ class LDSCalc(Calculate):
         return scores
 
 
-class FFSCalc(Calculate):
-    def __init__(self, method=ForestFireScore, minmax=False, norm=False):
-        super().__init__(method, minmax=minmax, norm=norm)
+class LDSCalc(NetworkitSparsificationCalculate):
+    def __init__(self, method=LocalDegreeScore):
+        super().__init__(method, triangles=False)
 
-    def run(self, graph: Graph) -> np.ndarray:
-        forest_fire = self._method(graph, 0.5, 1.0)
-        forest_fire.run()
-        scores = forest_fire.scores()
-        scores = np.array(scores, dtype=np.float32)
-        scores = scores[np.isfinite(scores)]
-        if self._minmax:
-            scores = (scores - np.min(scores)) / (np.max(scores) - np.min(scores) + np.finfo(np.float32).eps)
-        if self._norm:
-            scores = (scores - np.mean(scores)) / (np.std(scores) + np.finfo(np.float32).eps)
-        return scores
+
+class LSSCalc(NetworkitSparsificationCalculate):
+    def __init__(self, method=LocalSimilarityScore):
+        super().__init__(method, triangles=True)
+
+
+class SCANCalc(NetworkitSparsificationCalculate):
+    def __init__(self, method=SCANStructuralSimilarityScore):
+        super().__init__(method, triangles=True)
+
+
+# class FFSCalc(Calculate):
+#     def __init__(self, method=ForestFireScore, minmax=False, norm=False):
+#         super().__init__(method, minmax=minmax, norm=norm)
+#
+#     def run(self, graph: Graph) -> np.ndarray:
+#         forest_fire = self._method(graph, 0.5, 1.0)
+#         forest_fire.run()
+#         scores = forest_fire.scores()
+#         scores = np.array(scores, dtype=np.float32)
+#         scores = scores[np.isfinite(scores)]
+#         if self._minmax:
+#             scores = (scores - np.min(scores)) / (np.max(scores) - np.min(scores) + np.finfo(np.float32).eps)
+#         if self._norm:
+#             scores = (scores - np.mean(scores)) / (np.std(scores) + np.finfo(np.float32).eps)
+#         return scores
