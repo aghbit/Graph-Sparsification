@@ -36,10 +36,21 @@ class IndexMain(BaseSparsing):
             G.indexEdges()
             edge_weights = self._main_calc(G)
 
-            sorted_edge_weights = sorted(edge_weights)
-            index_of_one_percent = floor(len(sorted_edge_weights) * 0.01 * self.power)
-            threshold = sorted_edge_weights[index_of_one_percent]
-            edge_index = edge_index[:, edge_weights > threshold]
+            edge_index_t = edge_index.T
+
+            edge_weight_pairs = list(zip(edge_index_t, edge_weights))
+            edge_weight_pairs.sort(key=lambda x: x[1])
+            edge_index_t = torch.stack(list(zip(*edge_weight_pairs))[0], dim=0)
+
+            #edge_index.sort(key = lambda x: edge_weights[edge_index.index(x)])
+            n_percent_index = floor(len(edge_weights) * 0.01 * self.power) + 1
+            edge_index = edge_index_t.T
+            edge_index = edge_index[:, n_percent_index:]
+
+            # sorted_edge_weights = sorted(edge_weights)
+            # index_of_one_percent = floor(len(sorted_edge_weights) * 0.01 * self.power)
+            # threshold = sorted_edge_weights[index_of_one_percent]
+            # edge_index = edge_index[:, edge_weights > threshold]
             after = float(edge_index.shape[1])
 
             # print(f'Removed {(1 - (after / before)):.2%} of edges')
