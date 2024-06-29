@@ -1,7 +1,3 @@
-from dataclasses import dataclass
-from typing import Any
-
-
 from sparsing.calculator import *
 from sparsing.abstract_sparsing_algorithm import IndexMain
 
@@ -42,22 +38,27 @@ class Katz(IndexMain):
 
 
 class LDS(IndexMain):
-    def __init__(self, power: int = None, calc=LDSCalc(minmax=True)):
+    def __init__(self, power: int = None, calc=LDSCalc()):
         super().__init__(percent2remove=power, calc=calc)
 
 
-class ForestFire(IndexMain):
-    def __init__(self, power: int = None, calc=FFSCalc(minmax=True)):
+class LSS(IndexMain):
+    def __init__(self, power: int = None, calc=LSSCalc()):
+        super().__init__(percent2remove=power, calc=calc)
+
+class SCAN(IndexMain):
+    def __init__(self, power: int = None, calc=SCANCalc()):
         super().__init__(percent2remove=power, calc=calc)
 
 sparsing_list = [
     None,
-    # Jaccard,
+    #Jaccard,
     # CommonNeighbor,
-    PreferentialAttachment,
-    AdamicAdar,
-    AdjustedRand,
-    Katz,
+    #PreferentialAttachment,
+    #AdamicAdar,
+    #AdjustedRand,
+    #Katz,
     LDS,
-    #ForestFire,
+    LSS,
+    SCAN,
 ]
