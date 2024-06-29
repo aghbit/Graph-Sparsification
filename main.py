@@ -33,7 +33,7 @@ if __name__ == '__main__':
             for sparsing in sparsing_list:
                 sparsing_name = sparsing.__name__ if sparsing is not None else 'NoSparsification'
 
-                for percent2remove in range(1, 8 + 1) if sparsing is not None else [None]:
+                for percent2remove in range(1, 9) if sparsing is not None else [None]:
                     sparsing_alg = sparsing if percent2remove is None else sparsing(percent2remove)
                     model = get_model(model_data.model_type, dataset)
                     experiment_dto = ExperimentDto(dataset, model, sparsing_alg)
