@@ -4,3 +4,4 @@ tmp/
 additional_files/graph_sparsification_stolen.ipynb
 graph_sparsification_stolen (2).ipynb
 __pycache__/
+*.pyc
