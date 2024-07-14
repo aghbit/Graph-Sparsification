@@ -46,7 +46,7 @@ if __name__ == '__main__':
                     results.append(result.as_dict())
 
     results_df = pd.DataFrame(results)
-    results_df.to_csv('additional_files/results.csv', index=False)
+    results_df.to_csv('additional_files/results_webkb.csv', index=False)
 
 end_time = time.time()
 total_time = end_time - start_time
