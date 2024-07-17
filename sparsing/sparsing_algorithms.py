@@ -52,10 +52,10 @@ class SCAN(IndexMain):
 
 sparsing_list = [
     None,
-    Jaccard,
+    # Jaccard,
     # CommonNeighbor,
     PreferentialAttachment,
-    AdamicAdar,
+    # AdamicAdar,
     AdjustedRand,
     # Katz,
     LDS,

@@ -3,7 +3,7 @@ from typing import Any
 
 import torch
 import torch.nn.functional as F
-from torch_geometric.nn import GCNConv
+from torch_geometric.nn import GCNConv, SAGEConv, GATConv
 from torch_geometric.nn import Linear
 from torch_geometric.nn import SGConv
 
@@ -12,12 +12,12 @@ class ModelData:
     model_type: Any
     model_name: str
 
-class GCN_CUSTOM(torch.nn.Module):
+class GCN(torch.nn.Module):
     def __init__(self, dataset):
         super().__init__()
-        self.conv1 = GCNConv(dataset.num_node_features, dataset.num_node_features)
-        self.conv2 = GCNConv(dataset.num_node_features, dataset.num_node_features)
-        self.lin1 = Linear(dataset.num_node_features, dataset.num_classes)
+        self.conv1 = GCNConv(dataset.num_node_features, 200)
+        self.conv2 = GCNConv(200, 100)
+        self.out = Linear(100, dataset.num_classes)
 
     def forward(self, x, edge_index):
         x = self.conv1(x, edge_index)
@@ -28,9 +28,43 @@ class GCN_CUSTOM(torch.nn.Module):
         x = F.relu(x)
         x = F.dropout(x, training=self.training)
 
-        x = self.lin1(x)
+        return self.out(x)
 
-        return F.log_softmax(x, dim=1)
+class SAGE(torch.nn.Module):
+    def __init__(self, dataset):
+        super().__init__()
+        self.conv1 = SAGEConv(dataset.num_node_features, 200)
+        self.conv2 = SAGEConv(200, 100)
+        self.out = Linear(100, dataset.num_classes)
+
+    def forward(self, x, edge_index):
+        x = self.conv1(x, edge_index)
+        x = F.relu(x)
+        x = F.dropout(x, training=self.training)
+
+        x = self.conv2(x, edge_index)
+        x = F.relu(x)
+        x = F.dropout(x, training=self.training)
+
+        return self.out(x)
+
+class GAT(torch.nn.Module):
+    def __init__(self, dataset):
+        super().__init__()
+        self.conv1 = GATConv(dataset.num_node_features, 200)
+        self.conv2 = GATConv(200, 100)
+        self.out = Linear(100, dataset.num_classes)
+
+    def forward(self, x, edge_index):
+        x = self.conv1(x, edge_index)
+        x = F.relu(x)
+        x = F.dropout(x, training=self.training)
+
+        x = self.conv2(x, edge_index)
+        x = F.relu(x)
+        x = F.dropout(x, training=self.training)
+
+        return self.out(x)
 
 
 # SGC Feature Extractor
@@ -46,7 +80,10 @@ class SGC_CUSTOM(torch.nn.Module):
 
 models = [
     # ModelData(GCN_CUSTOM, "GCN_CUSTOM"),
-    ModelData(SGC_CUSTOM, "SGC_CUSTOM"),
+    #ModelData(SGC_CUSTOM, "SGC_CUSTOM"),
+    ModelData(GCN, 'GCN'),
+    ModelData(SAGE, 'SAGE'),
+    ModelData(GAT, 'GAT'),
     # ModelData(GCN, "GCN"),
     # ModelData(GraphSAGE, "GraphSAGE"),
     # ModelData(GIN, "GIN"),
@@ -55,3 +92,11 @@ models = [
     # ModelData(SVC, 'SVM'),
     # ModelData(RandomForestClassifier, 'RF')
     ]
+
+def test(model, data):
+    model.eval()
+    out = model(data.x, data.edge_index)
+    pred = out.argmax(dim=1)
+    correct = (pred[data.test_mask] == data.y[data.test_mask]).sum()
+    acc = int(correct) / int(data.test_mask.sum())
+    return acc

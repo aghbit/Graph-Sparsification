@@ -21,3 +21,20 @@ def show_cdf(data, percentile_threshold=95):
     plt.legend()
     print(f"Value at {percentile_threshold}% threshold: {threshold_value:.2f}")
     plt.show()
+
+def generate_torch_masks(data, train_ratio=0.8):
+    num_nodes = data.num_nodes
+    indices = np.arange(num_nodes)
+    np.random.shuffle(indices)
+
+    train_size = int(num_nodes * train_ratio)
+
+    train_mask = torch.zeros(num_nodes, dtype=torch.bool)
+    test_mask = torch.zeros(num_nodes, dtype=torch.bool)
+
+    train_mask[indices[:train_size]] = True
+    test_mask[indices[train_size:]] = True
+
+    data.train_mask = train_mask
+    data.test_mask = test_mask
+    return data

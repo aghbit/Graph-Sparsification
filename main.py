@@ -3,7 +3,7 @@ import warnings
 import pandas as pd
 import torch
 
-from datasets import datasets
+from datasets import datasets, directed
 from experiment import run_exp, ExperimentDto
 from models import models
 from result import Result
@@ -13,7 +13,7 @@ import time
 start_time = time.time()
 
 warnings.filterwarnings('ignore')
-device = torch.device('cpu')
+device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 print(f'Using device: {device}')
 
 
@@ -32,7 +32,7 @@ if __name__ == '__main__':
         for model_data in models:
             for sparsing in sparsing_list:
                 sparsing_name = sparsing.__name__ if sparsing is not None else 'NoSparsification'
-                for percent2remove in range(1, 9) if sparsing is not None else [None]:
+                for percent2remove in range(1, 11) if sparsing is not None else [None]:
                     sparsing_alg = sparsing if percent2remove is None else sparsing(percent2remove)
                     model = get_model(model_data.model_type, dataset)
                     experiment_dto = ExperimentDto(dataset, model, sparsing_alg)
@@ -46,7 +46,7 @@ if __name__ == '__main__':
                     results.append(result.as_dict())
 
     results_df = pd.DataFrame(results)
-    results_df.to_csv('additional_files/results_webkb.csv', index=False)
+    results_df.to_csv('additional_files/results_cora.csv', index=False)
 
 end_time = time.time()
 total_time = end_time - start_time
