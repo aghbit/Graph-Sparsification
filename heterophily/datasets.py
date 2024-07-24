@@ -73,7 +73,7 @@ class Dataset:
         removed_percentage = None
         if sparsification:
             pyg_graph = from_dgl(self.graph)
-            sparsification_alg = get_sparsification_alg(sparsification)
+            sparsification_alg = get_sparsification_alg(sparsification, power)
             if sparsification_alg is not None:
                 data, removed_percentage = sparsification_alg.f(pyg_graph)
             self.graph = to_dgl(data)
