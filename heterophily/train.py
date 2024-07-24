@@ -51,6 +51,10 @@ def get_args():
     parser.add_argument('--amp', default=False, action='store_true')
     parser.add_argument('--verbose', default=False, action='store_true')
 
+    # sparsification
+    parser.add_argument('--sparsification_algorithm', type=str, default=None)
+    parser.add_argument('--sparsification_power', type=int, default=None)
+
     args = parser.parse_args()
 
     if args.name is None:
@@ -96,7 +100,9 @@ def main():
                       use_sgc_features=args.use_sgc_features,
                       use_identity_features=args.use_identity_features,
                       use_adjacency_features=args.use_adjacency_features,
-                      do_not_use_original_features=args.do_not_use_original_features)
+                      do_not_use_original_features=args.do_not_use_original_features,
+                      sparsification=args.sparsification_algorithm,
+                      power=args.sparsification_power)
 
     logger = Logger(args, metric=dataset.metric, num_data_splits=dataset.num_data_splits)
 

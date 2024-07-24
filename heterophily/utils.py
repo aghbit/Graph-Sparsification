@@ -2,6 +2,7 @@ import os
 import yaml
 import numpy as np
 import torch
+from sparsing.sparsing_algorithms import *
 
 
 class Logger:
@@ -132,3 +133,18 @@ def get_lr_scheduler_with_warmup(optimizer, num_warmup_steps=None, num_steps=Non
     lr_scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=get_lr_multiplier, last_epoch=last_step)
 
     return lr_scheduler
+
+def get_sparsification_alg(name: str):
+    if name == 'Jaccard':
+        return Jaccard
+    if name == 'PreferentialAttachment':
+        return PreferentialAttachment
+    if name == 'AdjustedRand':
+        return AdjustedRand
+    if name == 'LDS':
+        return LDS
+    if name == 'LSS':
+        return LSS
+    if name == 'SCAN':
+        return SCAN
+    return None

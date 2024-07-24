@@ -5,11 +5,13 @@ from torch.nn import functional as F
 import dgl
 from dgl import ops
 from sklearn.metrics import roc_auc_score
+from torch_geometric.utils import from_dgl, to_dgl
+from utils import get_sparsification_alg
 
 
 class Dataset:
     def __init__(self, name, add_self_loops=False, device='cpu', use_sgc_features=False, use_identity_features=False,
-                 use_adjacency_features=False, do_not_use_original_features=False):
+                 use_adjacency_features=False, do_not_use_original_features=False, sparsification=None, power=None):
 
         if do_not_use_original_features and not any([use_sgc_features, use_identity_features, use_adjacency_features]):
             raise ValueError('If original node features are not used, at least one of the arguments '
@@ -67,6 +69,17 @@ class Dataset:
 
         self.loss_fn = F.binary_cross_entropy_with_logits if num_targets == 1 else F.cross_entropy
         self.metric = 'ROC AUC' if num_targets == 1 else 'accuracy'
+
+        removed_percentage = None
+        if sparsification:
+            pyg_graph = from_dgl(self.graph)
+            sparsification_alg = get_sparsification_alg(sparsification)
+            if sparsification_alg is not None:
+                data, removed_percentage = sparsification_alg.f(pyg_graph)
+            self.graph = to_dgl(data)
+
+        self.sparsification = sparsification
+        self.removed_percent = removed_percentage
 
     @property
     def train_idx(self):
