@@ -134,17 +134,17 @@ def get_lr_scheduler_with_warmup(optimizer, num_warmup_steps=None, num_steps=Non
 
     return lr_scheduler
 
-def get_sparsification_alg(name: str):
+def get_sparsification_alg(name: str, power: int):
     if name == 'Jaccard':
-        return Jaccard
+        return Jaccard(power=power)
     if name == 'PreferentialAttachment':
-        return PreferentialAttachment
+        return PreferentialAttachment(power=power)
     if name == 'AdjustedRand':
-        return AdjustedRand
+        return AdjustedRand(power=power)
     if name == 'LDS':
-        return LDS
+        return LDS(power=power)
     if name == 'LSS':
-        return LSS
+        return LSS(power=power)
     if name == 'SCAN':
-        return SCAN
+        return SCAN(power=power)
     return None
