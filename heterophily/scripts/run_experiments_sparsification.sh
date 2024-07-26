@@ -1,7 +1,7 @@
-for SPARSIFICATION in "Jaccard" "PreferentialAttachment" "AdjustedRand" "LDS" "LSS" "SCAN"
+for SPARSIFICATION in "PreferentialAttachment" "AdjustedRand" "LDS" "LSS" "SCAN"
 do
-  for POWER in 2 4 6 8 10
+  for POWER in 1 2 3
   do
-    python train.py --name "SAGE-$SPARSIFICATION-$POWER" --dataset roman-empire --model SAGE --num_layers 1 --device cuda:0 --sparsification_algorithm $SPARSIFICATION --sparsification_power $POWER
+    python train.py --name "SAGE-$SPARSIFICATION-$POWER" --dataset roman-empire --model SAGE --num_layers 2 --device cuda:0 --sparsification_algorithm $SPARSIFICATION --sparsification_power $POWER
   done
 done

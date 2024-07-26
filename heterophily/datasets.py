@@ -55,6 +55,9 @@ class Dataset:
         self.device = device
 
         self.graph = graph.to(device)
+
+        edges = self.graph.edges()
+
         self.node_features = node_features.to(device)
         self.labels = labels.to(device)
 
@@ -72,11 +75,12 @@ class Dataset:
 
         removed_percentage = None
         if sparsification:
-            pyg_graph = from_dgl(self.graph)
             sparsification_alg = get_sparsification_alg(sparsification, power)
             if sparsification_alg is not None:
-                data, removed_percentage = sparsification_alg.f(pyg_graph)
-            self.graph = to_dgl(data)
+                g, removed_percentage = sparsification_alg.f(self.graph, self.device)
+                # because the graph is converted to undirected in networkx along the way the edge count after sparsification is 2 times smaller than it should be
+                removed_percentage *= 2
+                self.graph = g
 
         self.sparsification = sparsification
         self.removed_percent = removed_percentage
