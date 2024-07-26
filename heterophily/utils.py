@@ -3,6 +3,7 @@ import yaml
 import numpy as np
 import torch
 from sparsing.sparsing_algorithms import *
+import time
 
 
 class Logger:
@@ -17,6 +18,10 @@ class Logger:
         self.num_data_splits = num_data_splits
         self.cur_run = None
         self.cur_data_split = None
+        self.start_time = None
+        self.finish_time = None
+        self.total_time = 0
+        self.run_times = []
 
         print(f'Results will be saved to {self.save_dir}.')
         with open(os.path.join(self.save_dir, 'args.yaml'), 'w') as file:
@@ -28,6 +33,7 @@ class Logger:
         self.val_metrics.append(0)
         self.test_metrics.append(0)
         self.best_steps.append(None)
+        self.start_time = time.time()
 
         if self.num_data_splits == 1:
             print(f'Starting run {run}/{self.num_runs}...')
@@ -48,6 +54,9 @@ class Logger:
 
     def finish_run(self):
         self.save_metrics()
+        self.finish_time = time.time()
+        self.total_time += self.finish_time - self.start_time
+        self.run_times.append(self.finish_time - self.start_time)
         print(f'Finished run {self.cur_run}. '
               f'Best val {self.metric}: {self.val_metrics[-1]:.4f}, '
               f'corresponding test {self.metric}: {self.test_metrics[-1]:.4f} '
@@ -62,6 +71,8 @@ class Logger:
 
         metrics = {
             'num runs': num_runs,
+            'total time': self.total_time,
+            'run times': self.run_times,
             f'val {self.metric} mean': val_metric_mean,
             f'val {self.metric} std': val_metric_std,
             f'test {self.metric} mean': test_metric_mean,
