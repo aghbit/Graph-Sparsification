@@ -158,4 +158,10 @@ def get_sparsification_alg(name: str, power: int):
         return LSS(power=power)
     if name == 'SCAN':
         return SCAN(power=power)
+    if name == 'LDSDirected':
+        return LDSDirected(power=power)
+    if name == 'LSSDirected':
+        return LSSDirected(power=power)
+    if name == 'SCANDirected':
+        return SCANDirected(power=power)
     return None

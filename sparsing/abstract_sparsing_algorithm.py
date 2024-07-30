@@ -8,7 +8,7 @@ from torch_geometric.utils import to_networkx
 
 
 class BaseSparsing(BaseTransform):
-    def __init__(self, power: int = None):
+    def __init__(self, power: float = None):
         super(BaseSparsing, self).__init__()
         self.power = power
 
@@ -17,7 +17,7 @@ class BaseSparsing(BaseTransform):
 
 
 class IndexMain(BaseSparsing):
-    def __init__(self, percent2remove: int = None, calc=None):
+    def __init__(self, percent2remove: float = None, calc=None):
         super(IndexMain, self).__init__(power=percent2remove)
         self._calc = calc
 

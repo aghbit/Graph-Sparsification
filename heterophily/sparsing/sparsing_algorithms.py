@@ -1,5 +1,5 @@
 from sparsing.calculator import *
-from sparsing.abstract_sparsing_algorithm import IndexMain
+from sparsing.abstract_sparsing_algorithm import IndexMain, IndexMainDirected
 
 
 class Jaccard(IndexMain):
@@ -47,6 +47,19 @@ class LSS(IndexMain):
         super().__init__(percent2remove=power, calc=calc)
 
 class SCAN(IndexMain):
+    def __init__(self, power: int = None, calc=SCANCalc()):
+        super().__init__(percent2remove=power, calc=calc)
+
+class LDSDirected(IndexMainDirected):
+    def __init__(self, power: int = None, calc=LDSCalc()):
+        super().__init__(percent2remove=power, calc=calc)
+
+
+class LSSDirected(IndexMainDirected):
+    def __init__(self, power: int = None, calc=LSSCalc()):
+        super().__init__(percent2remove=power, calc=calc)
+
+class SCANDirected(IndexMainDirected):
     def __init__(self, power: int = None, calc=SCANCalc()):
         super().__init__(percent2remove=power, calc=calc)
 

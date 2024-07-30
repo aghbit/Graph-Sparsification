@@ -53,7 +53,7 @@ def get_args():
 
     # sparsification
     parser.add_argument('--sparsification_algorithm', type=str, default=None)
-    parser.add_argument('--sparsification_power', type=int, default=None)
+    parser.add_argument('--sparsification_power', type=float, default=None)
 
     args = parser.parse_args()
 
